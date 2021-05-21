@@ -56,6 +56,7 @@ export const loginUser = createAsyncThunk(
       console.log('response', data);
       if (response.status === 200) {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('password', password);
         return data;
       } else {
       
@@ -79,8 +80,7 @@ export const updatePassword = createAsyncThunk(
           method: 'GET',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
-            'Id':'1'
+            'Content-Type': 'application/json'
         },
           body: JSON.stringify({
             oldPassword,
@@ -110,12 +110,12 @@ export const fetchUserBytoken = createAsyncThunk(
   async ({ token }, thunkAPI) => {
     try {
       const response = await fetch(
-        'http://localhost:9002/fetchUserByToken',
+        'http://localhost:9002/students',
         {
           method: 'GET',
           headers: {
             Accept: 'application/json',
-            Authorization: token,
+            Authorization:"Bearer "+ token,
             'Content-Type': 'application/json',
           },
         }
@@ -138,6 +138,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {
     username: '',
+    students:[],
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -174,7 +175,7 @@ export const userSlice = createSlice({
       return state;
     },
     [loginUser.rejected]: (state, { payload }) => {
-      console.log('payload', payload);
+    //  console.log('payload', payload);
       state.isFetching = false;
       state.isError = true;
       //buraya müdehale
@@ -189,7 +190,8 @@ export const userSlice = createSlice({
     [fetchUserBytoken.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.isSuccess = true;
-      state.username = payload.name;
+      state.students = payload.rows;
+   
     },
     [fetchUserBytoken.rejected]: (state) => {
       console.log('fetchUserBytoken');
