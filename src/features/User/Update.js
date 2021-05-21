@@ -1,22 +1,22 @@
 import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser, userSelector, clearState } from './UserSlice';
-import toast from 'react-hot-toast';
+import { updatePassword, userSelector, clearState } from './UserSlice';
 import { useHistory } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
-const Login = ({}) => {
+const Update = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const { register, errors, handleSubmit } = useForm();
-  
+  const history = useHistory();
+
   const { isFetching, isSuccess, isError, errorMessage } = useSelector(
     userSelector
   );
 
   const onSubmit = (data) => {
-    dispatch(loginUser(data));
+    console.log(data);
+    dispatch(updatePassword(data));
   };
 
   useEffect(() => {
@@ -26,17 +26,19 @@ const Login = ({}) => {
   }, []);
 
   useEffect(() => {
+
+    if (isSuccess) {
+         dispatch(clearState());
+         history.push('/');
+    }
+
     if (isError) {
       toast.error(errorMessage);
       dispatch(clearState());
     }
 
-    if (isSuccess) {
-      dispatch(clearState());
-      history.push('/');
-    }
-  }, [isError, isSuccess]);
-
+  }, [isSuccess, isError]);
+  
   return (
 <Fragment>
 <div className="container">
@@ -48,14 +50,14 @@ const Login = ({}) => {
               <small>Start your business easily</small>
             </div>
             <div className="form-group" style={{ marginTop: "30px",textAlign:"left" }}>
-              <small style={{ width: "100%" }}>Username</small>
+              <small style={{ width: "100%" }}>Old Password</small>
               <div className="input-group mb-3 input-group-sm" style={{ marginTop: "10px" }}>
                 <div className="input-group-prepend">
                   <span className="input-group-text" style={{ borderRadius: "0" }}><i className="las la-user"></i></span>
                 </div>
-                <input id="username" name="username"  ref={register({ required: true })} type="username" autoComplete="username" required className="form-control" />
+                <input id="oldPassword" name="oldPassword"  ref={register({ required: true })} type="text" autoComplete="oldPassword" required className="form-control" />
               </div>
-            </div>
+            </div>           
             <div className="form-group" style={{textAlign:"left"}}>
               <small style={{ width: "100%" }}>Password</small>
               <div className="input-group mb-3 input-group-sm" style={{ marginTop: "10px" }}>
@@ -76,10 +78,6 @@ const Login = ({}) => {
                 </div>
               </div>
             </div>
-            <div style={{textAlign: "left"}}>
-
-            </div>
-         
             <button type="submit" className="btn btn-primary btn-block"  style={{marginTop:"15px"}}>
                   {isFetching ? (
                     <svg
@@ -102,9 +100,8 @@ const Login = ({}) => {
                       ></path>
                     </svg>
                   ) : null}
-                  Sign in
+                     Update
                 </button>
-            <Link className="btn btn-outline-dark" to={'/Signup'} style={{ marginTop: "15px" }}>Create Account</Link>
           </div>
         </form>
       </div>
@@ -112,5 +109,4 @@ const Login = ({}) => {
     </Fragment>
   );
 };
-
-export default Login;
+export default Update;
