@@ -1,24 +1,24 @@
 import React, { Fragment, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { IsOldPassword, updatePassword, userSelector, clearState } from './UserSlice';
+import { NewNotify, userSelector, clearState } from './UserSlice';
 import { useHistory } from 'react-router-dom';
 import toast from 'react-hot-toast';
-const Update = () => {
+
+const NewNotification = () => {
   const dispatch = useDispatch();
   const { register, errors, handleSubmit } = useForm();
   const history = useHistory();
 
-  const { IsOld, isFetching, isSuccess, isError, errorMessage } = useSelector(
+  const { isFetching, isSuccess, isError, errorMessage } = useSelector(
     userSelector
   );
-
-  const onSubmit = (data) => {  
-    dispatch(updatePassword(data));
+  const onSubmit = (data) => {
+    dispatch(NewNotify(data));
   };
 
-  useEffect(() => { 
-    dispatch(IsOldPassword());
+  useEffect(() => {
     return () => {
       dispatch(clearState());
     };
@@ -26,69 +26,84 @@ const Update = () => {
 
   useEffect(() => {
     if (isSuccess) {
-         dispatch(clearState());
-         //history.push('/Dashboard');
+      dispatch(clearState());
+      history.push('/Notifications');
     }
 
     if (isError) {
       toast.error(errorMessage);
-     // console.log(errorMessage);
       dispatch(clearState());
     }
-   // console.log(IsOld);
-    if(IsOld){
-     //toast.error(IsOld);
-    }
-    else{
-      history.push('/Dashboard');
-    }
-  }, [IsOld,isSuccess, isError]);
+  }, [isSuccess, isError]);
   const onLogOut = () => {
     localStorage.removeItem('token');
     history.push('/login');
   };
   return (
-<Fragment>
-<div className="container">
+    <Fragment>
+     <div className="container">
       <div className="row">
-        <div className="col-xs-12">
-        <button onClick={onLogOut} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right">
-            Log Out
-          </button>
-        </div>
+          <div className="col-xs-12">
+               <button onClick={onLogOut} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mt-3 rounded float-right">
+                  Log Out
+                </button>
+          </div>
       <form onSubmit={handleSubmit(onSubmit)} method="POST">       
           <div className="col-md-6 offset-md-3 col-xs-12 card" style={{ marginTop: "100px", background: "white", padding: "70px" }}>
             <div style={{ borderLeft: "4px solid #70bbfd", paddingLeft: "15px", width: "100%",textAlign:"left" }}>
-              <div style={{ fontSize: "24px" }}>Welcome to EasyDev</div>
-              <small>Start your business easily</small>
+              <div style={{ fontSize: "24px" }}>Create Notification</div>
             </div>
-            <div className="form-group" style={{ marginTop: "30px",textAlign:"left" }}>
-              <small style={{ width: "100%" }}>Old Password</small>
-              <div className="input-group mb-3 input-group-sm" style={{ marginTop: "10px" }}>
-                <div className="input-group-prepend">
-                  <span className="input-group-text" style={{ borderRadius: "0" }}><i className="las la-user"></i></span>
-                </div>
-                <input id="oldPassword" name="oldPassword"  ref={register({ required: true })} type="text" autoComplete="oldPassword" required className="form-control" />
-              </div>
-            </div>           
+        
             <div className="form-group" style={{textAlign:"left"}}>
-              <small style={{ width: "100%" }}>Password</small>
+              <small style={{ width: "100%" }}>Title</small>
               <div className="input-group mb-3 input-group-sm" style={{ marginTop: "10px" }}>
                 <div className="input-group-prepend">
-                  <span className="input-group-text" style={{ borderRadius: "0" }}><i className="las la-key"></i></span>
+                  <span className="input-group-text" style={{ borderRadius: "0" }}><i className="las la-envelope"></i></span>
                 </div>
                 <input
-                    id="password"
-                    name="password"
-                    type="password"
+                    id="title"
+                    name="title"
+                    type="title"
+                    autocomplete="title"
+                    required
                     ref={register({ required: true })}
-                    autoComplete="current-password"
+                    className="form-control" />
+              
+              </div>
+            </div>
+            <div className="form-group" style={{textAlign:"left"}}>
+              <small style={{ width: "100%" }}>Content</small>
+              <div className="input-group mb-3 input-group-sm" style={{ marginTop: "10px" }}>
+                <div className="input-group-prepend">
+                  <span className="input-group-text" style={{ borderRadius: "0" }}><i className="las la-envelope"></i></span>
+                </div>
+                <input
+                    id="content"
+                    name="content"
+                    type="content"
+                    ref={register({ required: true })}
+                    autoComplete="department"
                     required
                     className="form-control"
                   />
-                <div className="input-group-append">
-                  <span className="input-group-text" style={{ borderRadius: "0" }}><i className="las la-user-secret"></i></span>
+              </div>
+            </div>
+            <div className="form-group" style={{textAlign:"left"}}>
+              <small style={{ width: "100%" }}>Department</small>
+              <div className="input-group mb-3 input-group-sm" style={{ marginTop: "10px" }}>
+                <div className="input-group-prepend">
+                  <span className="input-group-text" style={{ borderRadius: "0" }}><i className="las la-envelope"></i></span>
                 </div>
+                <input
+                    id="department"
+                    name="department"
+                    type="department"
+                    ref={register({ required: true })}
+                    autoComplete="department"
+                    required
+                    value="admin"
+                    className="form-control"
+                  />
               </div>
             </div>
             <button type="submit" className="btn btn-primary btn-block"  style={{marginTop:"15px"}}>
@@ -113,7 +128,7 @@ const Update = () => {
                       ></path>
                     </svg>
                   ) : null}
-                     Update
+                  Create
                 </button>
           </div>
         </form>
@@ -122,4 +137,5 @@ const Update = () => {
     </Fragment>
   );
 };
-export default Update;
+
+export default NewNotification;
