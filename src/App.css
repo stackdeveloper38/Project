@@ -37,3 +37,8 @@
     transform: translateY(0px)
   }
 }
+
+#startAt,#endAt{
+  padding: 2px .75rem !important;
+  border-radius: 0;
+}

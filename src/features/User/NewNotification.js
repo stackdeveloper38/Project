@@ -53,7 +53,6 @@ const NewNotification = () => {
             <div style={{ borderLeft: "4px solid #70bbfd", paddingLeft: "15px", width: "100%",textAlign:"left" }}>
               <div style={{ fontSize: "24px" }}>Create Notification</div>
             </div>
-        
             <div className="form-group" style={{textAlign:"left"}}>
               <small style={{ width: "100%" }}>Title</small>
               <div className="input-group mb-3 input-group-sm" style={{ marginTop: "10px" }}>
@@ -67,8 +66,7 @@ const NewNotification = () => {
                     autocomplete="title"
                     required
                     ref={register({ required: true })}
-                    className="form-control" />
-              
+                    className="form-control" />             
               </div>
             </div>
             <div className="form-group" style={{textAlign:"left"}}>

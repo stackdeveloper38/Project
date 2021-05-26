@@ -1,39 +1,36 @@
 import React, { Fragment, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { userSelector, fetchNotifyBytoken,deleteNotifyById, clearState } from './UserSlice';
+import { userSelector, fetchCandidateBytoken, clearState, deleteCandidateById } from './UserSlice';
 import Loader from 'react-loader-spinner';
 import { useHistory } from 'react-router-dom';
 import { Table } from 'reactstrap';
-import toast from 'react-hot-toast';
 import Header from './Header';
-const Dashboard = () => {
+
+const Candidate = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(fetchNotifyBytoken({ token: localStorage.getItem('token'),department:"admin" }));
+    dispatch(fetchCandidateBytoken({ token: localStorage.getItem('token'),department:"admin" }));
   }, []);
-  const {isSuccessOk, isFetching, isError, notifies, errorMessage } = useSelector(userSelector);
-  const { username } = useSelector(userSelector);
+
+  const { isFetching, isError, Candidates } = useSelector(userSelector);
   useEffect(() => {
-    if (isSuccessOk) {
-      dispatch(fetchNotifyBytoken({ token: localStorage.getItem('token'),department:"admin" }));
-     //history.push('/notifications');
-    }
+ 
     if (isError) {
       dispatch(clearState());
-      toast.error(errorMessage);
-     // history.push('/login');
+      history.push('/login');
     }
-  }, [isSuccessOk,isError]);
+  }, [isError]);
   const onLogOut = () => {
     localStorage.removeItem('token');
     history.push('/login');
   };
- const onDelete = Id => {
-    dispatch(deleteNotifyById({Id:Id}));
-  
+  const onDelete = Id => {
+    dispatch(deleteCandidateById({Id:Id})); 
+    dispatch(fetchCandidateBytoken({ token: localStorage.getItem('token'),department:"admin" }));
   };
-  const data = notifies;
+  const data = Candidates;
   return (
     <div className="container mx-auto mt-3">
       {isFetching ? (
@@ -46,8 +43,8 @@ const Dashboard = () => {
                 <button onClick={onLogOut} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right">
                   Log Out
                 </button>
-                <a href="/NewNotification" className="btn btn-success float-right" style={{marginRight:"15px"}}>
-                  Create Notification
+                <a href="/NewCandidate" className="btn btn-success float-right" style={{marginRight:"15px"}}>
+                  Create Candidates
                 </a>
               </div>
               <div className="col-xs-12">
@@ -57,15 +54,21 @@ const Dashboard = () => {
                   </div>
                   <div className="col-md-9 col-xs-12">
                   <div className="container mx-auto">
-                  <h3>Notifications</h3>
+                  <h3>Candidates</h3>
                 </div>
                 <Table>
                   <thead>
                     <tr>
                       <th>Id</th>
-                      <th>Title</th>
-                      <th>Content</th>
+                      <th>StudentId</th>
+                      <th>Name</th>
+                      <th>Surname</th>
                       <th>Department</th>
+                      <th>Votes</th>
+                      <th>Description</th>
+                      <th>Approved</th>
+                      <th>StartAt</th>
+                      <th>EndAt</th>
                       <th>#</th>
                     </tr>
                   </thead>
@@ -73,12 +76,22 @@ const Dashboard = () => {
                     {data.map(function (d, idx) {
                       return (
                         <Fragment key={idx}>
-                          <tr >
+                          <tr>
                             <td>{d.id}</td>
-                            <td>{d.title}</td>
-                            <td>{d.content}</td>
+                            <td>{d.studentId}</td>
+                            <td>{d.name}</td>
+                            <td>{d.surname}</td>
                             <td>{d.department}</td>
-                            <td><div class="btn btn-danger" onClick={() => onDelete(d.id)}>Delete</div></td>
+                            <td>{d.votes}</td>
+                            <td>{d.description}</td>
+                            <td>{d.approved?"Yes":"No"}</td>
+                            <td>{d.startAt}</td>
+                            <td>{d.endAt}</td>
+                            <td>
+                              <div class="btn btn-danger" onClick={() => onDelete(d.id)}>
+                                  Delete
+                              </div>
+                            </td>
                           </tr>
                         </Fragment>
                       );
@@ -95,4 +108,4 @@ const Dashboard = () => {
     </div>
   );
 };
-export default Dashboard;
+export default Candidate;

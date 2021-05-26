@@ -8,7 +8,7 @@ class Header extends Component {
                     <Col xs="12">
                         <ul className="list-group">
                             <li className="list-group-item text-left"><a href="/Notifications">Notifications</a></li>
-                            <li className="list-group-item text-left"><a href="">Candidates</a></li>
+                            <li className="list-group-item text-left"><a href="/Candidates">Candidates</a></li>
                             <li className="list-group-item text-left"><a href="/Dashboard">Students</a></li>
                         </ul>
                     </Col>
@@ -17,5 +17,4 @@ class Header extends Component {
         );
     }
 }
-
 export default Header;

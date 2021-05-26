@@ -44,17 +44,16 @@ const Dashboard = () => {
       {isFetching ? (
         <Loader type="Puff" color="#00BFFF" height={100} width={100} />
       ) : (
-        <Fragment>
-       
+        <Fragment>       
           <div className="Container">
             <div className="row">
               <div className="col-xs-12">
                 <button onClick={onLogOut} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right">
-                  Log Out
-          </button>
+                    Log Out
+                </button>
                 <button className="btn btn-primary py-2 px-4 rounded float-right" style={divStyle} onClick={sendbulkmail}>
-                  Send Activation Link
-          </button>
+                     Send Activation Link
+                </button>
               </div>
               <div className="col-xs-12">
                 <div className="row">
@@ -75,7 +74,6 @@ const Dashboard = () => {
                       <th>Email</th>
                       <th>Status</th>
                       <th>Password</th>
-                      <th>#</th>
                     </tr>
                   </thead>
                   <tbody>

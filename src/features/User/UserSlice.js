@@ -1,12 +1,54 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-export const NewNotify = createAsyncThunk(
-  'users/NewNotify',
-  async ({ title, content,department }, thunkAPI) => {
+export const NewCandidat = createAsyncThunk(
+  'users/NewCandidat',
+  async ({ studentId, name, surname, department, votes, description, approved, startAt, endAt }, thunkAPI) => {
     try {
       const token = localStorage.getItem('token');
-      const createdAt= new Date();
-      const updatedAt= new Date();
+      const response = await fetch(
+        'http://localhost:9002/candidates',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + token
+          },
+          body: JSON.stringify({
+            studentId,
+            name,
+            surname,
+            department,
+            votes,
+            description,
+            approved,
+            startAt,
+            endAt
+          }),
+        }
+      );
+      let data = await response.json();
+      console.log('data', data);
+      if (response.status === 200) {
+        return { ...data };
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log('Error', e.response.data);
+      return thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+
+
+export const NewNotify = createAsyncThunk(
+  'users/NewNotify',
+  async ({ title, content, department }, thunkAPI) => {
+    try {
+      const token = localStorage.getItem('token');
+      const createdAt = new Date();
+      const updatedAt = new Date();
       const deletedAt = null;
       const response = await fetch(
         'http://localhost:9002/notifications',
@@ -15,11 +57,11 @@ export const NewNotify = createAsyncThunk(
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization:"Bearer "+ token
+            Authorization: "Bearer " + token
           },
           body: JSON.stringify({
-            title, 
-            content, 
+            title,
+            content,
             department,
             createdAt,
             updatedAt,
@@ -41,7 +83,70 @@ export const NewNotify = createAsyncThunk(
     }
   }
 );
+export const deleteCandidateById = createAsyncThunk(
+  'users/deleteCandidateById',
+  async ({ Id }, thunkAPI) => {
 
+    try {
+
+      const token = localStorage.getItem('token');
+      const response = await fetch(
+        'http://localhost:9002/candidates/' + Id,
+        {
+          method: 'delete',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + token
+          }
+        }
+      );
+      let data = await response.json();
+      console.log('data', data);
+
+      if (response.status === 200) {
+        return { ...data };
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log('Error', e.response.data);
+      return thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+export const deleteNotifyById = createAsyncThunk(
+  'users/deleteNotifyById',
+  async ({ Id }, thunkAPI) => {
+
+    try {
+
+      const token = localStorage.getItem('token');
+      const response = await fetch(
+        'http://localhost:9002/notifications/' + Id,
+        {
+          method: 'delete',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + token
+          }
+        }
+      );
+      let data = await response.json();
+      console.log('data', data);
+
+      if (response.status === 200) {
+        return { ...data };
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log('Error', e.response.data);
+      return thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
 export const loginUser = createAsyncThunk(
   'users/login',
   async ({ username, password }, thunkAPI) => {
@@ -54,26 +159,26 @@ export const loginUser = createAsyncThunk(
             Accept: 'application/json',
             'Content-Type': 'application/json',
 
-        },
+          },
           body: JSON.stringify({
             username,
             password,
-        }),
-       }
-    );
+          }),
+        }
+      );
+
       let data = await response.json();
       console.log('response', data);
       if (response.status === 200) {
         localStorage.setItem('token', data.token);
-     
         return data;
       } else {
-      
+
         return thunkAPI.rejectWithValue(data);
       }
     } catch (e) {
       console.log('Error', e.response.data);
-     thunkAPI.rejectWithValue(e.response.data);
+      thunkAPI.rejectWithValue(e.response.data);
     }
   }
 );
@@ -81,17 +186,15 @@ export const loginUser = createAsyncThunk(
 export const IsOldPassword = createAsyncThunk(
   'users/IsOldPassword',
   async (thunkAPI) => {
-       return false;
+    return false;
   }
 );
-
 
 export const updatePassword = createAsyncThunk(
   'users/updatePassword',
   async ({ oldPassword, password }, thunkAPI) => {
     try {
       const token = localStorage.getItem('token');
-     
       const response = await fetch(
         'http://localhost:9002/profile/1',
         {
@@ -99,33 +202,30 @@ export const updatePassword = createAsyncThunk(
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            Authorization:"Bearer "+ token
-        },
+            Authorization: "Bearer " + token
+          },
           body: JSON.stringify({
             oldPassword,
             password,
-        }),
-       }
-    );
-    
+          }),
+        }
+      );
       let data = await response.json();
-     
       if (response.status === 200) {
-
         return data;
       } else {
         return thunkAPI.rejectWithValue(data);
       }
     } catch (e) {
       console.log('Error', e.response.data);
-     thunkAPI.rejectWithValue(e.response.data);
+      thunkAPI.rejectWithValue(e.response.data);
     }
   }
 );
 
 export const fetchNotifyBytoken = createAsyncThunk(
   'users/fetchNotifyBytoken',
-  async ({ token,department }, thunkAPI) => {
+  async ({ token, department }, thunkAPI) => {
     try {
       const response = await fetch(
         'http://localhost:9002/notifications',
@@ -133,15 +233,15 @@ export const fetchNotifyBytoken = createAsyncThunk(
           method: 'GET',
           headers: {
             Accept: 'application/json',
-            Authorization:"Bearer "+ token,
+            Authorization: "Bearer " + token,
             'Content-Type': 'application/json',
-            department:department
+            department: department
           }
-          
+
         }
       );
       let data = await response.json();
-    //  console.log('data', data, response.status);
+      //  console.log('data', data, response.status);
       if (response.status === 200) {
         return { ...data };
       } else {
@@ -153,6 +253,36 @@ export const fetchNotifyBytoken = createAsyncThunk(
     }
   }
 );
+
+export const fetchCandidateBytoken = createAsyncThunk(
+  'users/fetchCandidateBytoken',
+  async ({ token, department }, thunkAPI) => {
+    try {
+      const response = await fetch(
+        'http://localhost:9002/candidates',
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            Authorization: "Bearer " + token,
+            'Content-Type': 'application/json',
+            department: department
+          }
+        }
+      );
+      let data = await response.json();
+      if (response.status === 200) {
+        return { ...data };
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log('Error', e.response.data);
+      return thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+
 export const fetchUserBytoken = createAsyncThunk(
   'users/fetchUserByToken',
   async ({ token }, thunkAPI) => {
@@ -163,7 +293,7 @@ export const fetchUserBytoken = createAsyncThunk(
           method: 'GET',
           headers: {
             Accept: 'application/json',
-            Authorization:"Bearer "+ token,
+            Authorization: "Bearer " + token,
             'Content-Type': 'application/json',
           },
         }
@@ -186,21 +316,25 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {
     username: '',
-    students:[],
+    students: [],
     isFetching: false,
     isSuccess: false,
     isError: false,
-    IsOld:true,
+    IsOld: true,
     errorMessage: '',
-    notifies:[],
+    notifies: [],
+    Candidates: [],
+    isSuccessOk: false
   },
   reducers: {
     clearState: (state) => {
       state.isError = false;
       state.isSuccess = false;
       state.isFetching = false;
-      state.notifies=[];
-      state.students=[];
+      state.notifies = [];
+      state.students = [];
+      state.Candidates = [];
+      state.isSuccessOk = false;
       return state;
     },
   },
@@ -209,12 +343,47 @@ export const userSlice = createSlice({
       console.log('payload', payload);
       state.isFetching = false;
       state.isSuccess = true;
-
     },
     [NewNotify.pending]: (state) => {
       state.isFetching = true;
     },
     [NewNotify.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload;
+    },
+    [deleteNotifyById.fulfilled]: (state, { payload }) => {
+      console.log('payload', payload);
+      state.isFetching = false;
+      state.isSuccess = true;
+      state.isSuccessOk = true;
+    },
+    [deleteNotifyById.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [deleteNotifyById.rejected]: (state, { payload }) => {
+
+      if (payload != undefined) {
+        state.isError = true;
+        state.isFetching = false;
+        state.errorMessage = payload;
+        state.isSuccessOk = false;
+      }
+      else {
+        state.isFetching = false;
+        state.isSuccess = true;
+        state.isSuccessOk = true;
+      }
+    },
+    [NewCandidat.fulfilled]: (state, { payload }) => {
+      console.log('payload', payload);
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [NewCandidat.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [NewCandidat.rejected]: (state, { payload }) => {
       state.isFetching = false;
       state.isError = true;
       state.errorMessage = payload;
@@ -226,7 +395,7 @@ export const userSlice = createSlice({
       return state;
     },
     [loginUser.rejected]: (state, { payload }) => {
-    //  console.log('payload', payload);
+      //  console.log('payload', payload);
       state.isFetching = false;
       state.isError = true;
       //buraya müdehale
@@ -237,18 +406,15 @@ export const userSlice = createSlice({
       state.isError = false;
     },
     [updatePassword.rejected]: (state, { payload }) => {
-      //  console.log('payload', payload);
-        state.isFetching = false;
-        state.isError = true;
-        //buraya müdehale
-        
-        state.errorMessage = payload.message;
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload.message;
     },
-      [updatePassword.fulfilled]: (state, { payload }) => {
-        state.isFetching = false;
-        state.isSuccess = true;
-        state.isError = false;
-      },  
+    [updatePassword.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isSuccess = true;
+      state.isError = false;
+    },
     [loginUser.pending]: (state) => {
       state.isFetching = true;
     },
@@ -256,7 +422,7 @@ export const userSlice = createSlice({
     [IsOldPassword.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.isSuccess = true;
-   
+
       state.IsOld = payload;
     },
     [fetchUserBytoken.pending]: (state) => {
@@ -273,7 +439,7 @@ export const userSlice = createSlice({
       state.isFetching = false;
       state.isError = true;
     },
-        [fetchNotifyBytoken.pending]: (state) => {
+    [fetchNotifyBytoken.pending]: (state) => {
       state.isFetching = true;
     },
     [fetchNotifyBytoken.fulfilled]: (state, { payload }) => {
@@ -281,14 +447,32 @@ export const userSlice = createSlice({
       state.isSuccess = true;
       console.log(payload);
       state.notifies = payload.notifications;
-   
+
     },
+
     [fetchNotifyBytoken.rejected]: (state) => {
       console.log('fetchNotifyBytoken');
       state.isFetching = false;
       state.isError = true;
     },
-  },
+
+
+    [fetchCandidateBytoken.pending]: (state) => {
+      state.isFetching = true;
+    },
+
+    [fetchCandidateBytoken.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isSuccess = true;
+      console.log(payload);
+      state.Candidates = payload.candidates;
+    },
+    [fetchCandidateBytoken.rejected]: (state) => {
+      console.log('fetchCandidateBytoken');
+      state.isFetching = false;
+      state.isError = true;
+    }
+  }
 });
 
 export const { clearState } = userSlice.actions;
