@@ -1,5 +1,41 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+export const ApproveIt = createAsyncThunk(
+  'users/ApproveIt',
+  async ({ Id,what }, thunkAPI) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(
+        'http://localhost:9002/ApproveIt',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + token
+          },
+          body: JSON.stringify({
+            Id,
+            what
+          }),
+        }
+      );
+      let data = await response.json();
+      console.log('data', data);
+      if (response.status === 200) {
+        return { ...data };
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log('Error', e.response.data);
+      return thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
+
+
+
 export const NewCandidat = createAsyncThunk(
   'users/NewCandidat',
   async ({ studentId, name, surname, department, votes, description, approved, startAt, endAt }, thunkAPI) => {

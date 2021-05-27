@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { userSelector, fetchCandidateBytoken, clearState, deleteCandidateById } from './UserSlice';
+import { userSelector, fetchCandidateBytoken, clearState, deleteCandidateById,ApproveIt } from './UserSlice';
 import Loader from 'react-loader-spinner';
 import { useHistory } from 'react-router-dom';
 import { Table } from 'reactstrap';
@@ -28,6 +28,10 @@ const Candidate = () => {
   };
   const onDelete = Id => {
     dispatch(deleteCandidateById({Id:Id})); 
+    dispatch(fetchCandidateBytoken({ token: localStorage.getItem('token'),department:"admin" }));
+  };
+  const onApprove = (Id,what) => {
+    dispatch(ApproveIt({ token: localStorage.getItem('token'),Id:Id,what:what }));
     dispatch(fetchCandidateBytoken({ token: localStorage.getItem('token'),department:"admin" }));
   };
   const data = Candidates;
@@ -84,7 +88,7 @@ const Candidate = () => {
                             <td>{d.department}</td>
                             <td>{d.votes}</td>
                             <td>{d.description}</td>
-                            <td>{d.approved?"Yes":"No"}</td>
+                            <td>{d.approved?<div class="btn btn-danger" onClick={() => onApprove(d.id,0)}>Onaysız Yap</div>:<div class="btn btn-success" onClick={() => onApprove(d.id,1)}>Onaylı Yap</div>}</td>
                             <td>{d.startAt}</td>
                             <td>{d.endAt}</td>
                             <td>
