@@ -4,14 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { NewCandidat, userSelector, clearState } from './UserSlice';
 import { useHistory } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import DateTimePicker from 'react-datetime-picker';
 import "react-datepicker/dist/react-datepicker.css";
 const NewCandidate = () => {
   const dispatch = useDispatch();
   const { register, errors, handleSubmit } = useForm();
   const history = useHistory();
-  const [value, onChange] = useState(new Date());
-  const [value2, onChange2] = useState(new Date());
   const { isFetching, isSuccess, isError, errorMessage } = useSelector(
     userSelector
   );

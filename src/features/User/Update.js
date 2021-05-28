@@ -51,28 +51,24 @@ const Update = () => {
 <Fragment>
 <div className="container">
       <div className="row">
-        <div className="col-xs-12">
+        <div className="col-xs-12 mt-3">
         <button onClick={onLogOut} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right">
             Log Out
           </button>
         </div>
       <form onSubmit={handleSubmit(onSubmit)} method="POST">       
-          <div className="col-md-6 offset-md-3 col-xs-12 card" style={{ marginTop: "100px", background: "white", padding: "70px" }}>
-            <div style={{ borderLeft: "4px solid #70bbfd", paddingLeft: "15px", width: "100%",textAlign:"left" }}>
-              <div style={{ fontSize: "24px" }}>Welcome to EasyDev</div>
-              <small>Start your business easily</small>
-            </div>
-            <div className="form-group" style={{ marginTop: "30px",textAlign:"left" }}>
+          <div className="col-md-6 offset-md-3 col-xs-12 card" style={{ marginTop: "100px", background: "white", padding: "70px" }}>      
+            <div className="form-group d-none" style={{ marginTop: "30px",textAlign:"left" }}>
               <small style={{ width: "100%" }}>Old Password</small>
               <div className="input-group mb-3 input-group-sm" style={{ marginTop: "10px" }}>
                 <div className="input-group-prepend">
                   <span className="input-group-text" style={{ borderRadius: "0" }}><i className="las la-user"></i></span>
                 </div>
-                <input id="oldPassword" name="oldPassword"  ref={register({ required: true })} type="text" autoComplete="oldPassword" required className="form-control" />
+                <input id="oldPassword" name="oldPassword" value="admin" ref={register({ required: true })} type="text" autoComplete="oldPassword" required className="form-control" />
               </div>
             </div>           
             <div className="form-group" style={{textAlign:"left"}}>
-              <small style={{ width: "100%" }}>Password</small>
+              <small style={{ width: "100%" }}>New Password</small>
               <div className="input-group mb-3 input-group-sm" style={{ marginTop: "10px" }}>
                 <div className="input-group-prepend">
                   <span className="input-group-text" style={{ borderRadius: "0" }}><i className="las la-key"></i></span>
@@ -113,7 +109,7 @@ const Update = () => {
                       ></path>
                     </svg>
                   ) : null}
-                     Update
+                     Submit
                 </button>
           </div>
         </form>

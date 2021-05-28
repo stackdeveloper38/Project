@@ -1,57 +1,85 @@
 import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginUser, userSelector, clearState } from './UserSlice';
-import toast from 'react-hot-toast';
+import { IsOldPassword, updatePassword, userSelector, clearState } from './UserSlice';
 import { useHistory } from 'react-router-dom';
-
-const Login = ({}) => {
+import toast from 'react-hot-toast';
+import Loader from 'react-loader-spinner';
+import LeftMenu from './LeftMenu';
+const Update = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const { register, errors, handleSubmit } = useForm();
-  const { isFetching, isSuccess, isError, errorMessage } = useSelector(
+  const history = useHistory();
+  const { IsOld, isFetching, isSuccess, isError, errorMessage } = useSelector(
     userSelector
   );
-  
-  const onSubmit = (data) => {
-    dispatch(loginUser(data));
+
+  const onSubmit = (data) => {  
+    dispatch(updatePassword(data));
   };
 
-  useEffect(() => {
+  useEffect(() => { 
+    dispatch(IsOldPassword());
     return () => {
       dispatch(clearState());
     };
   }, []);
 
   useEffect(() => {
-    if (isError) {
-      toast.error(errorMessage);
-      dispatch(clearState());
+    if (isSuccess) {
+         dispatch(clearState());
+         //history.push('/Dashboard');
     }
 
-    if (isSuccess) {
+    if (isError) {
+      toast.error(errorMessage);
+     // console.log(errorMessage);
       dispatch(clearState());
-      history.push('/');
     }
-  }, [isError, isSuccess]);
+   // console.log(IsOld);
+    if(IsOld){
+     //toast.error(IsOld);
+    }
+    else{
+     // history.push('/');
+    }
+  }, [IsOld,isSuccess, isError]);
+  const onLogOut = () => {
+    localStorage.removeItem('token');
+    history.push('/login');
+  };
   return (
-<Fragment>
-<div className="container">
-      <div className="row">
-      <form onSubmit={handleSubmit(onSubmit)} method="POST">       
-          <div className="col-md-6 offset-md-3 col-xs-12 card" style={{ marginTop: "100px", background: "white", padding: "0 20px 20px 20px" }}>
+    <div className="container-fluid mx-auto vrrfdc h-100">
+      {isFetching ? (
+        <Loader type="Puff" color="#00BFFF" height={100} width={100} />
+      ) : (
+        <Fragment>       
+            <div className="row vh-100 justify-content-center">
+            <div className="col-xs-12 pt-2" style={{backgroundColor:"#3f51b5",height:"60px"}}>
+                <button onClick={onLogOut} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right">
+                    Log Out
+                </button>
+                <a href="/profile" className="bg-blue-500 mr-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right">
+                    Profile
+                </a>
+            </div>
+              <div className="col-xs-12 col-md-2" style={{height:"100%",backgroundColor:"#2b2b2b"}}>
+                <LeftMenu />
+              </div>
+              <div className="col-xs-12 col-md-10" style={{height:"100%",padding:"15px",backgroundColor:"#eee"}}>
+              <form onSubmit={handleSubmit(onSubmit)} method="POST">       
+          <div className="col-md-6 offset-md-3 col-xs-12 card" style={{ marginTop: "100px", background: "white", padding: "70px" }}>      
             <div className="form-group" style={{ marginTop: "30px",textAlign:"left" }}>
-              <small style={{ width: "100%" }}>Username</small>
+              <small style={{ width: "100%" }}>Old Password</small>
               <div className="input-group mb-3 input-group-sm" style={{ marginTop: "10px" }}>
                 <div className="input-group-prepend">
                   <span className="input-group-text" style={{ borderRadius: "0" }}><i className="las la-user"></i></span>
                 </div>
-                <input id="username" name="username"  ref={register({ required: true })} type="username" autoComplete="username" required className="form-control" />
+                <input id="oldPassword" name="oldPassword"  ref={register({ required: true })} type="text" autoComplete="oldPassword" required className="form-control" />
               </div>
-            </div>
+            </div>           
             <div className="form-group" style={{textAlign:"left"}}>
-              <small style={{ width: "100%" }}>Password</small>
+              <small style={{ width: "100%" }}>New Password</small>
               <div className="input-group mb-3 input-group-sm" style={{ marginTop: "10px" }}>
                 <div className="input-group-prepend">
                   <span className="input-group-text" style={{ borderRadius: "0" }}><i className="las la-key"></i></span>
@@ -70,9 +98,6 @@ const Login = ({}) => {
                 </div>
               </div>
             </div>
-            <div style={{textAlign: "left"}}>
-
-            </div>     
             <button type="submit" className="btn btn-primary btn-block"  style={{marginTop:"15px"}}>
                   {isFetching ? (
                     <svg
@@ -95,13 +120,15 @@ const Login = ({}) => {
                       ></path>
                     </svg>
                   ) : null}
-                  Sign in
+                     Submit
                 </button>
           </div>
-        </form>
-      </div>
-    </div> 
-    </Fragment>
+        </form>    
+              </div>
+            </div>
+        </Fragment>
+      )}
+    </div>
   );
 };
-export default Login;
+export default Update;

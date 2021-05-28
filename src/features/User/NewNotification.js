@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { NewNotify, userSelector, clearState } from './UserSlice';
@@ -14,6 +13,7 @@ const NewNotification = () => {
   const { isFetching, isSuccess, isError, errorMessage } = useSelector(
     userSelector
   );
+  
   const onSubmit = (data) => {
     dispatch(NewNotify(data));
   };
@@ -43,12 +43,12 @@ const NewNotification = () => {
     <Fragment>
      <div className="container">
       <div className="row">
-          <div className="col-xs-12">
-               <button onClick={onLogOut} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mt-3 rounded float-right">
-                  Log Out
-                </button>
+          <div className="col-xs-12">  
+            <button onClick={onLogOut} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mt-3 rounded float-right">
+              Log Out
+            </button>
           </div>
-      <form onSubmit={handleSubmit(onSubmit)} method="POST">       
+         <form onSubmit={handleSubmit(onSubmit)} method="POST">       
           <div className="col-md-6 offset-md-3 col-xs-12 card" style={{ marginTop: "100px", background: "white", padding: "70px" }}>
             <div style={{ borderLeft: "4px solid #70bbfd", paddingLeft: "15px", width: "100%",textAlign:"left" }}>
               <div style={{ fontSize: "24px" }}>Create Notification</div>
@@ -127,7 +127,7 @@ const NewNotification = () => {
                     </svg>
                   ) : null}
                   Create
-                </button>
+             </button>
           </div>
         </form>
       </div>

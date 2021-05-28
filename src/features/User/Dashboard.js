@@ -5,13 +5,12 @@ import Loader from 'react-loader-spinner';
 import { useHistory } from 'react-router-dom';
 import { Table } from 'reactstrap';
 import toast from 'react-hot-toast';
-import Header from './Header';
+import LeftMenu from './LeftMenu';
+
 const Dashboard = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const sendbulkmail = () => {
-    // Github fetch library : https://github.com/github/fetch
-    // Call the API page
     fetch('http://localhost:9002/sendbulkmail')
       .then((result) => {
         toast.success("Bulk Mail has been Send");
@@ -20,11 +19,8 @@ const Dashboard = () => {
         toast.error(jsonResult.message);
       })
   }
-  useEffect(() => {
-    dispatch(fetchUserBytoken({ token: localStorage.getItem('token') }));
-  }, []);
+  useEffect(() => { dispatch(fetchUserBytoken({ token: localStorage.getItem('token') })); }, []);
   const { isFetching, isError, students } = useSelector(userSelector);
-  const { username } = useSelector(userSelector);
   useEffect(() => {
     if (isError) {
       dispatch(clearState());
@@ -36,44 +32,45 @@ const Dashboard = () => {
     history.push('/login');
   };
   var divStyle = {
-    marginRight: "10px"
+    marginRight: "10px",
+    width:"100%"
   };
   const data = students;
   return (
-    <div className="container mx-auto mt-3">
+    <div className="container-fluid mx-auto vrrfdc h-100">
       {isFetching ? (
         <Loader type="Puff" color="#00BFFF" height={100} width={100} />
       ) : (
         <Fragment>       
-          <div className="Container">
-            <div className="row">
-              <div className="col-xs-12">
+            <div className="row vh-100 justify-content-center">
+            <div className="col-xs-12 pt-2" style={{backgroundColor:"#3f51b5",height:"60px"}}>
                 <button onClick={onLogOut} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right">
                     Log Out
                 </button>
-                <button className="btn btn-primary py-2 px-4 rounded float-right" style={divStyle} onClick={sendbulkmail}>
+                <a href="/profile" className="bg-blue-500 mr-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right">
+                    Profile
+                </a>
+            </div>
+              <div className="col-xs-12 col-md-2" style={{height:"100%",backgroundColor:"#2b2b2b"}}>
+                <LeftMenu />
+              </div>
+              <div className="col-xs-12 col-md-10" style={{height:"100%",padding:"15px",backgroundColor:"#eee"}}>
+              <button className="btn btn-primary py-2 px-4 rounded float-right" style={divStyle} onClick={sendbulkmail}>
                      Send Activation Link
                 </button>
-              </div>
-              <div className="col-xs-12">
-                <div className="row">
-                  <div className="col-md-3 col-xs-12">
-                  <Header />
-                  </div>
-                  <div className="col-md-9 col-xs-12">
-                  <div className="container mx-auto">
-                  <h3>Student List</h3>
-                </div>
+                <br/>
+                <h3 style={{marginTop:"30px"}}>
+                  Student List
+                </h3>
+
                 <Table>
                   <thead>
                     <tr>
-                      <th>#</th>
                       <th>StudentId</th>
                       <th>Name</th>
                       <th>Surname</th>
-                      <th>Email</th>
                       <th>Status</th>
-                      <th>Password</th>
+                      <th>#</th>          
                     </tr>
                   </thead>
                   <tbody>
@@ -82,11 +79,8 @@ const Dashboard = () => {
                         <Fragment>
                           <tr>
                             <td>{d.studentId}</td>
-                            <td>{d.id}</td>
-                            <td>
-                              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target={"#exampleModal-" + d.id}>
-                                {d.name}
-                              </button>
+                            <td>   
+                              {d.name}
                               <div class="modal fade" id={"exampleModal-" + d.id} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                   <div class="modal-content">
@@ -95,28 +89,29 @@ const Dashboard = () => {
                                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                      <table class="table table-striped">
-                                        <thead>
-                                          <tr>
-                                            <th>Gpa</th>
-                                            <th>Grade</th>
-                                            <th>hasVoted</th>
-                                            <th>isCandidate</th>
-                                            <th>primaryDepartment</th>
-                                            <th>secondaryDepartment</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          <tr>
-                                            <td>{d.gpa}</td>
-                                            <td>{d.grade}</td>
-                                            <td>{d.hasVoted ? "Yes" : "No"}</td>
-                                            <td>{d.isCandidate ? "Yes" : "No"}</td>
-                                            <td>{d.primaryDepartment}</td>
-                                            <td>{d.secondaryDepartment}</td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
+
+
+                                    <dl class="row">
+                                       <dt class="col-sm-3 text-left">Gpa</dt>
+                                       <dd class="col-sm-9 text-left">: {d.Gpa}</dd>
+
+                                       <dt class="col-sm-3 text-left">Grade</dt>
+                                       <dd class="col-sm-9 text-left">: {d.Grade}</dd>
+                                  
+
+                                      <dt class="col-sm-3 text-left">hasVoted</dt>
+                                      <dd class="col-sm-9 text-left">: {d.hasVoted}</dd>
+
+                                      <dt class="col-sm-3 text-left">isCandidate</dt>
+                                      <dd class="col-sm-9 text-left">: {d.isCandidate}</dd>
+
+                                      <dt class="col-sm-3 text-left">primaryDepartment</dt>
+                                      <dd class="col-sm-9 text-left">: {d.primaryDepartment}</dd>
+
+                                      <dt class="col-sm-3 text-left">secondaryDepartment</dt>
+                                      <dd class="col-sm-9 text-left">: {d.secondaryDepartment}</dd>
+                                    </dl>
+
                                     </div>
                                     <div class="modal-footer">
                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
@@ -126,20 +121,23 @@ const Dashboard = () => {
                               </div>
                             </td>
                             <td>{d.surname}</td>
-                            <td>{d.mail}</td>
-                            <td>{d.status}</td>
-                            <td>{d.password}</td>
+                            <td>{d.status}</td>  
+                            <td>
+                               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target={"#exampleModal-" + d.id}>
+                                  Detail
+                               </button>
+                            </td>                     
                           </tr>
                         </Fragment>
                       );
                     })}
                   </tbody>
                 </Table>
-                  </div>
-                </div>
+                
+                
               </div>
             </div>
-          </div>
+        
         </Fragment>
       )}
     </div>

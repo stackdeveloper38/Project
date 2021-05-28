@@ -6,6 +6,8 @@ import Update from './features/User/Update';
 import Dashboard from './features/User/Dashboard';
 import Notifications from './features/User/Notifications';
 import Candidates from './features/User/Candidates';
+import Profil from './features/User/Profile';
+import Election from './features/User/Election';
 import NewCandidate from './features/User/NewCandidate';
 import NewNotification from './features/User/NewNotification';
 import { PrivateRoute } from './helpers/PrivateRoute';
@@ -17,6 +19,8 @@ function App() {
         <Switch>     
           <Route exact component={Login} path="/login" />      
           <PrivateRoute exact component={Update} path="/" /> 
+          <PrivateRoute exact component={Profil} path="/Profile" /> 
+          <PrivateRoute exact component={Election} path="/Election" />
           <PrivateRoute exact component={Dashboard} path="/Dashboard" /> 
           <PrivateRoute exact component={Notifications} path="/Notifications" /> 
           <PrivateRoute exact component={NewNotification} path="/NewNotification" /> 

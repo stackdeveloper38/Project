@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-
 export const ApproveIt = createAsyncThunk(
   'users/ApproveIt',
   async ({ Id,what }, thunkAPI) => {
@@ -33,8 +32,6 @@ export const ApproveIt = createAsyncThunk(
     }
   }
 );
-
-
 
 export const NewCandidat = createAsyncThunk(
   'users/NewCandidat',
@@ -77,10 +74,9 @@ export const NewCandidat = createAsyncThunk(
   }
 );
 
-
 export const NewNotify = createAsyncThunk(
   'users/NewNotify',
-  async ({ title, content, department }, thunkAPI) => {
+  async ({ title, content }, thunkAPI) => {
     try {
       const token = localStorage.getItem('token');
       const createdAt = new Date();
@@ -98,7 +94,6 @@ export const NewNotify = createAsyncThunk(
           body: JSON.stringify({
             title,
             content,
-            department,
             createdAt,
             updatedAt,
             deletedAt
@@ -107,7 +102,41 @@ export const NewNotify = createAsyncThunk(
       );
       let data = await response.json();
       console.log('data', data);
+      if (response.status === 200) {
+        return { ...data, title: title };
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log('Error', e.response.data);
+      return thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
 
+export const NewDates = createAsyncThunk(
+  'users/NewDates',
+  async ({ CreatedAt, EndAt }, thunkAPI) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(
+        'http://localhost:9002/CreateDate',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: "Bearer " + token
+          },
+          body: JSON.stringify({
+            CreatedAt,
+            EndAt
+            
+          }),
+        }
+      );
+      let data = await response.json();
+      console.log('data', data);
       if (response.status === 200) {
         return { ...data, title: title };
       } else {
@@ -318,7 +347,37 @@ export const fetchCandidateBytoken = createAsyncThunk(
     }
   }
 );
-
+export const fetchUserIdBytoken = createAsyncThunk(
+  'users/fetchUserIdByToken',
+  async ({ token }, thunkAPI) => {
+    try {
+      const response = await fetch(
+        'http://localhost:9002/students',
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+            Authorization: "Bearer " + token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            Id
+          }),
+        }
+      );
+      let data = await response.json();
+      console.log('data', data, response.status);
+      if (response.status === 200) {
+        return { ...data };
+      } else {
+        return thunkAPI.rejectWithValue(data);
+      }
+    } catch (e) {
+      console.log('Error', e.response.data);
+      return thunkAPI.rejectWithValue(e.response.data);
+    }
+  }
+);
 export const fetchUserBytoken = createAsyncThunk(
   'users/fetchUserByToken',
   async ({ token }, thunkAPI) => {
