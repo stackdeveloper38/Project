@@ -10,14 +10,14 @@ const Login = ({}) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { register, errors, handleSubmit } = useForm();
-  const { isFetching, isSuccess, isError, errorMessage } = useSelector(
+  const { isOld, isFetching, isSuccess, isError, errorMessage } = useSelector(
     userSelector
   );
   
   const onSubmit = (data) => {
-    dispatch(loginUser(data));
-  };
+    dispatch(loginUser(data));   
 
+  };
   useEffect(() => {
     return () => {
       dispatch(clearState());
@@ -28,13 +28,22 @@ const Login = ({}) => {
     if (isError) {
       toast.error(errorMessage);
       dispatch(clearState());
-    }
-
-    if (isSuccess) {
-      dispatch(clearState());
-      history.push('/');
-    }
-  }, [isError, isSuccess]);
+    } 
+    if (isSuccess) {  
+         
+            if(isOld.isOldPassword)
+            {
+              //  console.log("ttnnnn",isOld.isOldPassword);
+             history.push('/update');
+            }
+            else{
+              history.push('/Dashboard');
+            }     
+         //vvb mxxxxxxxxxxxxxxxxxxxxxxxx    bb   
+         dispatch(clearState());    
+       }
+ 
+  }, [isOld,isError, isSuccess]);
   return (
 <Fragment>
 <div className="container">

@@ -14,11 +14,13 @@ const Update = () => {
   );
 
   const onSubmit = (data) => {  
-    dispatch(updatePassword(data));
+    dispatch(updatePassword(data));  
+    history.push('/Dashboard');
+
   };
 
   useEffect(() => { 
-    dispatch(IsOldPassword());
+    //dispatch(IsOldPassword());
     return () => {
       dispatch(clearState());
     };
@@ -40,7 +42,7 @@ const Update = () => {
      //toast.error(IsOld);
     }
     else{
-      history.push('/Dashboard');
+     // history.push('/Dashboard');
     }
   }, [IsOld,isSuccess, isError]);
   const onLogOut = () => {

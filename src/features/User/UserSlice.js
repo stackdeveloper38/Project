@@ -428,6 +428,7 @@ export const userSlice = createSlice({
       state.isSuccess = false;
       state.isFetching = false;
       state.notifies = [];
+      state.IsOld= true;
       state.students = [];
       state.Candidates = [];
       state.isSuccessOk = false;
@@ -485,9 +486,10 @@ export const userSlice = createSlice({
       state.errorMessage = payload;
     },
     [loginUser.fulfilled]: (state, { payload }) => {
-      state.username = payload.name;
+    //  state.username = payload.name;
       state.isFetching = false;
       state.isSuccess = true;
+      state.isOld = payload;
       return state;
     },
     [loginUser.rejected]: (state, { payload }) => {
