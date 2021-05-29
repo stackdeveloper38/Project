@@ -138,7 +138,7 @@ export const NewDates = createAsyncThunk(
       let data = await response.json();
       console.log('data', data);
       if (response.status === 200) {
-        return { ...data, title: title };
+        return { ...data };
       } else {
         return thunkAPI.rejectWithValue(data);
       }
@@ -349,7 +349,8 @@ export const fetchCandidateBytoken = createAsyncThunk(
 );
 export const fetchUserIdBytoken = createAsyncThunk(
   'users/fetchUserIdByToken',
-  async ({ token }, thunkAPI) => {
+  async ({ Id }, thunkAPI) => {
+    const token = localStorage.getItem('token');
     try {
       const response = await fetch(
         'http://localhost:9002/students',
