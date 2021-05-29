@@ -497,6 +497,7 @@ export const userSlice = createSlice({
       state.isFetching = false;
       state.isError = true;
       //buraya müdehale
+      console.log("DURUM:",payload);
       state.errorMessage = payload.message;
     },
     [updatePassword.pending]: (state) => {
