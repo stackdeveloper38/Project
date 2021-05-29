@@ -35,6 +35,7 @@ const Dashboard = () => {
   };
   const onDelete = Id => {
     dispatch(deleteNotifyById({ Id: Id }));
+    dispatch(fetchNotifyBytoken({ token: localStorage.getItem('token'), department: "admin" }));   
   };
   const data = notifies;
   return (
