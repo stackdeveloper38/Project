@@ -1,88 +1,198 @@
-import React, { Fragment, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useSelector, useDispatch } from 'react-redux';
-import { userSelector, clearState, NewDates } from './UserSlice';
-import { useHistory } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import Loader from 'react-loader-spinner';
-import LeftMenu from './LeftMenu';
+import React, { Fragment, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  NewCandidat,
+  userSelector,
+  fetchCandidateBytoken,
+  clearState,
+  deleteCandidateById,
+  ApproveIt
+} from './UserSlice'
+import Loader from 'react-loader-spinner'
+import { useHistory } from 'react-router-dom'
+import { Table } from 'reactstrap'
+import LeftMenu from './LeftMenu'
 
-const Election = () => {
-  const dispatch = useDispatch();
-  const { register, errors, handleSubmit } = useForm();
-  const history = useHistory();
-  const { isFetching, isSuccess, isError, errorMessage } = useSelector(
-    userSelector
-  );
+const Candidate = () => {
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const { register, errors, handleSubmit } = useForm()
+  useEffect(() => {
+    dispatch(
+      fetchCandidateBytoken({
+        token: localStorage.getItem('token'),
+        department: 'admin'
+      })
+    )
+  }, [])
+  const { isElectionOn,isFetching, isError, Candidates } = useSelector(userSelector)
+  useEffect(() => {
+    if (isError) {
+      dispatch(clearState())
+      history.push('/login')
+    }
 
-
+  }, [isError])
   const onLogOut = () => {
-    localStorage.removeItem('token');
-    history.push('/login');
-  };
-  const onSubmit = (data) => {
-    dispatch(NewDates(data));
-    toast.success("Saved");
-  };
-  return (
-    <div className="container-fluid mx-auto vrrfdc h-100">
-      {isFetching ? (
-        <Loader type="Puff" color="#00BFFF" height={100} width={100} />
-      ) : (
-        <Fragment>       
-            <div className="row vh-100 justify-content-center">
-            <div className="col-xs-12 pt-2" style={{backgroundColor:"#3f51b5",height:"60px"}}>
-                <button onClick={onLogOut} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right">
-                    Log Out
-                </button>
-                <a href="/profile" className="bg-blue-500 mr-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right">
-                    Profile
-                </a>
-            </div>
-              <div className="col-xs-12 col-md-2" style={{height:"100%",backgroundColor:"#2b2b2b"}}>
-                <LeftMenu />
-              </div>
-              <div className="col-xs-12 col-md-10" style={{height:"100%",padding:"15px",backgroundColor:"#eee"}}>
-                               <form onSubmit={handleSubmit(onSubmit)} method="POST">
-                                  <div className="input-group" style={{ width: "250px", float: "left", marginRight: "20px" }}>
-                                      <span className="input-group-text">Start Date:</span>
-                                      <input name="CreatedAt" ref={register({ required: true })} type="text" class="alldates form-control" />
-                                  </div>
+    localStorage.removeItem('token')
+    history.push('/login')
+  }
+  const onDelete = Id => {
+    dispatch(deleteCandidateById({ Id: Id }))
+    dispatch(
+      fetchCandidateBytoken({
+        token: localStorage.getItem('token'),
+        department: 'admin'
+      })
+    )
+  }
 
-                                  <div className="input-group" style={{ width: "250px" }}>
-                                      <span className="input-group-text">End Date:</span>
-                                      <input name="EndAt" ref={register({ required: true })} type="text" class="alldates form-control" />
-                                  </div>
-                                  <button type="submit" className="btn btn-primary btn-block"  style={{marginTop:"15px"}}>
-                  {isFetching ? (
-                    <svg
-                      class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24">
-                      <circle
-                        class="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        stroke-width="4"
-                      ></circle>
-                      <path
-                        class="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
-                    </svg>
-                  ) : null}
-                  Create
-            </button>
-                               </form>                  
-              </div>
+  const Election = Id => {
+    dispatch(election())
+    dispatch(
+      fetchCandidateBytoken({
+        token: localStorage.getItem('token'),
+        department: 'admin'
+      })
+    )
+  }
+
+
+  const onApprove = (Id, what) => {
+    console.log('kk')
+    dispatch(
+      ApproveIt({ token: localStorage.getItem('token'), Id: Id, what: what })
+    )
+    dispatch(
+      fetchCandidateBytoken({
+        token: localStorage.getItem('token'),
+        department: 'admin'
+      })
+    )
+  }
+
+  const data = Candidates
+  return (
+    <div className='container-fluid mx-auto vrrfdc h-100'>
+      {isFetching ? (
+        <Loader type='Puff' color='#00BFFF' height={100} width={100} />
+      ) : (
+        <Fragment>
+          <div className='row vh-100 justify-content-center'>
+            <div
+              className='col-xs-12 pt-2'
+              style={{ backgroundColor: '#3f51b5', height: '60px' }}
+            >
+              <button
+                onClick={onLogOut}
+                className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right'
+              >
+                Log Out
+              </button>
+              <a
+                href='/profile'
+                className='bg-blue-500 mr-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right'
+              >
+                Profile
+              </a>
             </div>
+            <div
+              className='col-xs-12 col-md-2'
+              style={{ height: '100%', backgroundColor: '#2b2b2b' }}
+            >
+              <LeftMenu />
+            </div>
+            <div
+              className='col-xs-12 col-md-10'
+              style={{ height: '100%', padding: '15px' }}
+            >
+              <div className='btn btn-success float-right' onClick={() => Election()}>
+                {isElectionOn?"End Election":"Start Election"}             
+              </div>
+              <br />
+              <h3 style={{ marginTop: '30px' }}>Candidates</h3>
+
+              <Table>
+                <thead>
+                  <tr>
+                    <th>Student ID</th>
+                    <th>Full Name</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.map(function (d, idx) {
+                    return (
+                      <Fragment key={idx}>
+                        <tr
+                          data-bs-toggle='modal'
+                          data-bs-target={'#exampleModal-' + d.id}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <td>{d.studentId}</td>
+                          <td>
+                            {d.student.name} {d.student.surname}
+                          </td>
+                          <td></td>
+                        </tr>
+                        <div
+                          class='modal fade'
+                          id={'exampleModal-' + d.id}
+                          tabindex='-1'
+                          aria-labelledby='exampleModalLabel'
+                          aria-hidden='true'>
+                          <div class='modal-dialog modal-lg'>
+                            <div class='modal-content'>
+                              <div class='modal-header'>
+                                <h5 class='modal-title' id='exampleModalLabel'>
+                                  {d.student.name} {d.student.surname}
+                                </h5>
+                                <button
+                                  type='button'
+                                  class='btn-close'
+                                  data-bs-dismiss='modal'
+                                  aria-label='Close'
+                                ></button>
+                              </div>
+                              <div class='modal-body'>
+                                <table class='table table-striped'>
+                                  <thead>
+                                    <tr>
+                                      <th>Grade</th>
+                                      <th>GPA</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>{d.student.grade}</td>
+                                      <td>{d.student.gpa}</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                                <h3>Description</h3>
+                                <p>{d.description}</p>
+                              </div>
+                              <div class='modal-footer'>
+                                <div
+                                  class='btn btn-danger'
+                                  onClick={() => onDelete(d.id)}
+                                >
+                                  Reject
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </Fragment>
+                    )
+                  })}
+                </tbody>
+              </Table>
+            </div>
+          </div>
         </Fragment>
       )}
     </div>
-  );
-};
-export default Election;
+  )
+}
+export default Candidate

@@ -1,37 +1,37 @@
-import React from 'react';
-import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Login from './features/User/Login';
-import Update from './features/User/Update';
-import Dashboard from './features/User/Dashboard';
-import Notifications from './features/User/Notifications';
-import Candidates from './features/User/Candidates';
-import Profil from './features/User/Profile';
-import Election from './features/User/Election';
-import NewCandidate from './features/User/NewCandidate';
-import NewNotification from './features/User/NewNotification';
-import { PrivateRoute } from './helpers/PrivateRoute';
-import NotFound from './helpers/NotFound';
-function App() {
+import React from 'react'
+import './App.css'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import login from './features/User/Login'
+import update from './features/User/Update'
+import dashboard from './features/User/Dashboard'
+import notifications from './features/User/Notifications'
+import election from './features/User/Election'
+import profil from './features/User/Profile'
+import newnotification from './features/User/NewNotification'
+import { PrivateRoute } from './helpers/PrivateRoute'
+import notfound from './helpers/NotFound'
+function App () {
   return (
-    <div className="App">
+    <div className='App'>
       <Router>
-        <Switch>     
-          <Route exact component={Login} path="/login" />      
-          <Route exact component={Login} path="/" />  
-          <PrivateRoute exact component={Profil} path="/Profile" /> 
-          <PrivateRoute exact component={Update} path="/Update" /> 
-          <PrivateRoute exact component={Election} path="/Election" />
-          <PrivateRoute exact component={Dashboard} path="/Dashboard" /> 
-          <PrivateRoute exact component={Notifications} path="/Notifications" /> 
-          <PrivateRoute exact component={NewNotification} path="/NewNotification" /> 
-          <PrivateRoute exact component={Candidates} path="/Candidates" />     
-          <PrivateRoute exact component={NewCandidate} path="/NewCandidate" /> 
-          <Route component={NotFound} />
+        <Switch>
+          <Route exact component={login} path='/login' />
+          <Route exact component={login} path='/' />
+          <PrivateRoute exact component={profil} path='/profile' />
+          <PrivateRoute exact component={update} path='/update' />
+          <PrivateRoute exact component={dashboard} path='/dashboard' />
+          <PrivateRoute exact component={notifications} path='/notifications' />
+          <PrivateRoute
+            exact
+            component={newnotification}
+            path='/newnotification'
+          />
+          <PrivateRoute exact component={election} path='/candidates' />
+          <Route component={notfound} />
         </Switch>
       </Router>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

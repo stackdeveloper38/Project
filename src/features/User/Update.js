@@ -28,7 +28,7 @@ const Update = () => {
 
   useEffect(() => {
     if (isSuccess) {
-         dispatch(clearState());
+        // dispatch(clearState());
          //history.push('/Dashboard');
     }
 
