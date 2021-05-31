@@ -26,13 +26,14 @@ const Candidate = () => {
       })
     )
   }, [])
-  const { isElectionOn,isFetching, isError, Candidates } = useSelector(userSelector)
+  const { isElectionOn, isFetching, isError, Candidates } = useSelector(
+    userSelector
+  )
   useEffect(() => {
     if (isError) {
       dispatch(clearState())
       history.push('/login')
     }
-
   }, [isError])
   const onLogOut = () => {
     localStorage.removeItem('token')
@@ -58,9 +59,7 @@ const Candidate = () => {
     )
   }
 
-
   const onApprove = (Id, what) => {
-    console.log('kk')
     dispatch(
       ApproveIt({ token: localStorage.getItem('token'), Id: Id, what: what })
     )
@@ -107,8 +106,11 @@ const Candidate = () => {
               className='col-xs-12 col-md-10'
               style={{ height: '100%', padding: '15px' }}
             >
-              <div className='btn btn-success float-right' onClick={() => Election()}>
-                {isElectionOn?"End Election":"Start Election"}             
+              <div
+                className='btn btn-success float-right'
+                onClick={() => Election()}
+              >
+                {isElectionOn ? 'End Election' : 'Start Election'}
               </div>
               <br />
               <h3 style={{ marginTop: '30px' }}>Candidates</h3>
@@ -136,26 +138,30 @@ const Candidate = () => {
                           <td></td>
                         </tr>
                         <div
-                          class='modal fade'
+                          className='modal fade'
                           id={'exampleModal-' + d.id}
-                          tabindex='-1'
+                          tabIndex='-1'
                           aria-labelledby='exampleModalLabel'
-                          aria-hidden='true'>
-                          <div class='modal-dialog modal-lg'>
-                            <div class='modal-content'>
-                              <div class='modal-header'>
-                                <h5 class='modal-title' id='exampleModalLabel'>
+                          aria-hidden='true'
+                        >
+                          <div className='modal-dialog modal-lg'>
+                            <div className='modal-content'>
+                              <div className='modal-header'>
+                                <h5
+                                  className='modal-title'
+                                  id='exampleModalLabel'
+                                >
                                   {d.student.name} {d.student.surname}
                                 </h5>
                                 <button
                                   type='button'
-                                  class='btn-close'
+                                  className='btn-close'
                                   data-bs-dismiss='modal'
                                   aria-label='Close'
                                 ></button>
                               </div>
-                              <div class='modal-body'>
-                                <table class='table table-striped'>
+                              <div className='modal-body'>
+                                <table className='table table-striped'>
                                   <thead>
                                     <tr>
                                       <th>Grade</th>
@@ -172,9 +178,9 @@ const Candidate = () => {
                                 <h3>Description</h3>
                                 <p>{d.description}</p>
                               </div>
-                              <div class='modal-footer'>
+                              <div className='modal-footer'>
                                 <div
-                                  class='btn btn-danger'
+                                  className='btn btn-danger'
                                   onClick={() => onDelete(d.id)}
                                 >
                                   Reject
