@@ -107,9 +107,9 @@ const Dashboard = () => {
                           <td>
                             {d.name}
                             <div
-                              class='modal fade'
+                              className='modal fade'
                               id={'exampleModal-' + d.id}
-                              tabindex='-1'
+                              tabIndex='-1'
                               aria-labelledby='exampleModalLabel'
                               aria-hidden='true'
                             ></div>
