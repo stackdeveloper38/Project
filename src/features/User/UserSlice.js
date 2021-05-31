@@ -276,11 +276,11 @@ export const updatePassword = createAsyncThunk(
 )
 
 export const election = createAsyncThunk(
-  'users/election',
+  'users/electionStatus',
   async (thunkAPI) => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:9002/electionstatus', {
+      const response = await fetch('http://localhost:9002/electionStatus', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -456,10 +456,11 @@ export const userSlice = createSlice({
       state.errorMessage = payload
     },    
     [election.fulfilled]: (state, { payload }) => {
-      console.log('payload', payload)
+    
       state.isFetching = false
       state.isSuccess = true
-      state.isElectionOn = payload.isElectionOn
+      console.log("ppp",payload);
+      state.isElectionOn = payload.election.status
     },
     [election.pending]: state => {
       state.isFetching = true

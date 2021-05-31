@@ -13,7 +13,7 @@ class Header extends Component {
             style={{ color: 'white', textDecoration: 'none' }}
           >
             <i
-              className='las la-user-tie'
+              class='las la-user-tie'
               style={{ fontSize: '22px', marginRight: '15px' }}
             ></i>
             <span>Students</span>
@@ -28,7 +28,7 @@ class Header extends Component {
             style={{ color: 'white', textDecoration: 'none' }}
           >
             <i
-              className='las la-vote-yea'
+              class='las la-vote-yea'
               style={{ fontSize: '22px', marginRight: '15px' }}
             ></i>
             <span>Election</span>
@@ -43,7 +43,7 @@ class Header extends Component {
             style={{ color: 'white', textDecoration: 'none' }}
           >
             <i
-              className='las la-envelope'
+              class='las la-envelope'
               style={{ fontSize: '22px', marginRight: '15px' }}
             ></i>
             <span>Notifications</span>

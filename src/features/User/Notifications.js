@@ -116,26 +116,26 @@ const Dashboard = () => {
                 Create
               </div>
               <div
-                className='modal fade'
+                class='modal fade'
                 id='exampleModal'
-                tabIndex='-1'
+                tabindex='-1'
                 aria-labelledby='exampleModalLabel'
                 aria-hidden='true'
               >
-                <div className='modal-dialog'>
-                  <div className='modal-content'>
-                    <div className='modal-header'>
-                      <h5 className='modal-title' id='exampleModalLabel'>
+                <div class='modal-dialog'>
+                  <div class='modal-content'>
+                    <div class='modal-header'>
+                      <h5 class='modal-title' id='exampleModalLabel'>
                         New Notifications
                       </h5>
                       <button
                         type='button'
-                        className='btn-close'
+                        class='btn-close'
                         data-bs-dismiss='modal'
                         aria-label='Close'
                       ></button>
                     </div>
-                    <div className='modal-body'>
+                    <div class='modal-body'>
                       <form onSubmit={handleSubmit(onSubmit)} method='POST'>
                         <div
                           className='form-group'
@@ -158,7 +158,7 @@ const Dashboard = () => {
                               id='title'
                               name='title'
                               type='title'
-                              autoComplete='title'
+                              autocomplete='title'
                               required
                               ref={register({ required: true })}
                               className='form-control'
@@ -200,13 +200,13 @@ const Dashboard = () => {
                         >
                           {isFetching ? (
                             <svg
-                              className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                              class='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
                               xmlns='http://www.w3.org/2000/svg'
                               fill='none'
                               viewBox='0 0 24 24'
                             >
                               <circle
-                                className='opacity-25'
+                                class='opacity-25'
                                 cx='12'
                                 cy='12'
                                 r='10'
@@ -214,7 +214,7 @@ const Dashboard = () => {
                                 stroke-width='4'
                               ></circle>
                               <path
-                                className='opacity-75'
+                                class='opacity-75'
                                 fill='currentColor'
                                 d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
                               ></path>
@@ -224,7 +224,7 @@ const Dashboard = () => {
                         </button>
                       </form>
                     </div>
-                    <div className='modal-footer'></div>
+                    <div class='modal-footer'></div>
                   </div>
                 </div>
               </div>
@@ -250,7 +250,7 @@ const Dashboard = () => {
 
                           <td>
                             <div
-                              className='btn btn-danger'
+                              class='btn btn-danger'
                               onClick={() => onDelete(d.id)}
                             >
                               Delete
@@ -258,30 +258,27 @@ const Dashboard = () => {
                           </td>
                         </tr>
                         <div
-                          className='modal fade'
+                          class='modal fade'
                           id={'exampleModal-' + d.id}
-                          tabIndex='-1'
+                          tabindex='-1'
                           aria-labelledby='exampleModalLabel'
                           aria-hidden='true'
                         >
-                          <div className='modal-dialog modal-lg'>
-                            <div className='modal-content'>
-                              <div className='modal-header'>
-                                <h5
-                                  className='modal-title'
-                                  id='exampleModalLabel'
-                                >
+                          <div class='modal-dialog modal-lg'>
+                            <div class='modal-content'>
+                              <div class='modal-header'>
+                                <h5 class='modal-title' id='exampleModalLabel'>
                                   {d.title}
                                 </h5>
                                 <button
                                   type='button'
-                                  className='btn-close'
+                                  class='btn-close'
                                   data-bs-dismiss='modal'
                                   aria-label='Close'
                                 ></button>
                               </div>
-                              <div className='modal-body'>
-                                <table className='table table-striped'>
+                              <div class='modal-body'>
+                                <table class='table table-striped'>
                                   <thead></thead>
                                   <tbody>
                                     <tr>
@@ -290,7 +287,7 @@ const Dashboard = () => {
                                   </tbody>
                                 </table>
                               </div>
-                              <div className='modal-footer'></div>
+                              <div class='modal-footer'></div>
                             </div>
                           </div>
                         </div>
