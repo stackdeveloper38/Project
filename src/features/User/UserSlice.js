@@ -497,11 +497,13 @@ export const userSlice = createSlice({
     },
     [NewCandidat.pending]: state => {
       state.isFetching = true
+      state.isOld = null;
     },
     [NewCandidat.rejected]: (state, { payload }) => {
       state.isFetching = false
       state.isError = true
       state.errorMessage = payload
+      state.isOld = null;
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       //  state.username = payload.name;
