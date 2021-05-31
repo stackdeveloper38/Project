@@ -68,6 +68,12 @@ const Dashboard = () => {
         department: 'admin'
       })
     )
+    dispatch(
+      fetchNotifyBytoken({
+        token: localStorage.getItem('token'),
+        department: 'admin'
+      })
+    )
   }
   const data = notifies
   return (
