@@ -223,7 +223,6 @@ export const loginUser = createAsyncThunk(
           password
         })
       })
-
       let data = await response.json()
       console.log('response', data)
       if (response.status === 200) {
@@ -508,7 +507,11 @@ export const userSlice = createSlice({
       //  state.username = payload.name;
       state.isFetching = false
       state.isSuccess = true
-      state.isOld = payload
+      if(payload.IsOldPassword != undefined)
+      {
+        state.isOld = payload
+      }
+
       return state
     },
     [loginUser.rejected]: (state, { payload }) => {
