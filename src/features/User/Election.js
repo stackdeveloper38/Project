@@ -40,6 +40,13 @@ const Candidate = () => {
   }
   const onDelete = Id => {
     dispatch(deleteCandidateById({ Id: Id }))
+    dispatch(deleteCandidateById({ Id: Id }))
+    dispatch(
+      fetchCandidateBytoken({
+        token: localStorage.getItem('token'),
+        department: 'admin'
+      })
+    )
     dispatch(
       fetchCandidateBytoken({
         token: localStorage.getItem('token'),
@@ -47,6 +54,8 @@ const Candidate = () => {
       })
     )
   }
+
+
 
   const Election = () => {
     dispatch(election())
