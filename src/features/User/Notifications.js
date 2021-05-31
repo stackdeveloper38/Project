@@ -55,6 +55,12 @@ const Dashboard = () => {
         department: 'admin'
       })
     )
+    dispatch(
+      fetchNotifyBytoken({
+        token: localStorage.getItem('token'),
+        department: 'admin'
+      })
+    )
   }
   const onLogOut = () => {
     localStorage.removeItem('token')
