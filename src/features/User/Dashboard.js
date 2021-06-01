@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { userSelector, fetchUserBytoken, clearState } from './UserSlice'
+import { isOldp, userSelector, fetchUserBytoken, clearState } from './UserSlice'
 import Loader from 'react-loader-spinner'
 import { useHistory } from 'react-router-dom'
 import { Table } from 'reactstrap'
@@ -20,16 +20,23 @@ const Dashboard = () => {
         toast.error(jsonResult.message)
       })
   }
+
   useEffect(() => {
+    dispatch(isOldp());
     dispatch(fetchUserBytoken({ token: localStorage.getItem('token') }))
   }, [])
-  const { isFetching, isError, students } = useSelector(userSelector)
+  const { IsOldpass,isFetching, isError, students } = useSelector(userSelector)
   useEffect(() => {
     if (isError) {
       dispatch(clearState())
       history.push('/login')
     }
-  }, [isError])
+    if(IsOldpass)  
+    {
+      dispatch(clearState())
+       history.push('/update')
+    }
+  }, [IsOldpass,isError])
   const onLogOut = () => {
     localStorage.removeItem('token')
     history.push('/login')

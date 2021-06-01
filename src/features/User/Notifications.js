@@ -6,7 +6,8 @@ import {
   fetchNotifyBytoken,
   deleteNotifyById,
   clearState,
-  NewNotify
+  NewNotify,
+  isOldp
 } from './UserSlice'
 import Loader from 'react-loader-spinner'
 import { useHistory } from 'react-router-dom'
@@ -18,6 +19,7 @@ const Dashboard = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   useEffect(() => {
+    dispatch(isOldp());
     dispatch(
       fetchNotifyBytoken({
         token: localStorage.getItem('token'),
@@ -30,10 +32,12 @@ const Dashboard = () => {
     isFetching,
     isError,
     notifies,
-    errorMessage
+    errorMessage,
+    IsOldpass
   } = useSelector(userSelector)
 
   useEffect(() => {
+    dispatch(isOldp())
     if (isSuccessOk) {
       dispatch(
         fetchNotifyBytoken({
@@ -46,7 +50,12 @@ const Dashboard = () => {
       dispatch(clearState())
       toast.error(errorMessage)
     }
-  }, [isSuccessOk, isError])
+    if(IsOldpass)  
+    {
+      dispatch(clearState())
+       history.push('/update')
+    }
+  }, [IsOldpass,isSuccessOk, isError])
   const onSubmit = data => {
     dispatch(NewNotify(data))
     dispatch(
@@ -55,7 +64,7 @@ const Dashboard = () => {
         department: 'admin'
       })
     )
-    dispatch(
+    dispatch(    
       fetchNotifyBytoken({
         token: localStorage.getItem('token'),
         department: 'admin'
@@ -275,8 +284,7 @@ const Dashboard = () => {
                           id={'exampleModal-' + d.id}
                           tabindex='-1'
                           aria-labelledby='exampleModalLabel'
-                          aria-hidden='true'
-                        >
+                          aria-hidden='true'>
                           <div class='modal-dialog modal-lg'>
                             <div class='modal-content'>
                               <div class='modal-header'>

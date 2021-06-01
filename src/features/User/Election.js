@@ -7,7 +7,8 @@ import {
   fetchCandidateBytoken,
   clearState,
   deleteCandidateById,
-  ApproveIt
+  ApproveIt,
+  isOldp
 } from './UserSlice'
 import Loader from 'react-loader-spinner'
 import { useHistory } from 'react-router-dom'
@@ -19,6 +20,7 @@ const Candidate = () => {
   const dispatch = useDispatch()
   const { register, errors, handleSubmit } = useForm()
   useEffect(() => {
+    dispatch(isOldp());
     dispatch(
       fetchCandidateBytoken({
         token: localStorage.getItem('token'),
@@ -26,18 +28,24 @@ const Candidate = () => {
       })
     )
   }, [])
-  const { isElectionOn,isFetching, isError, Candidates } = useSelector(userSelector)
+  const { IsOldpass,isElectionOn,isFetching, isError, Candidates } = useSelector(userSelector)
   useEffect(() => {
     if (isError) {
       dispatch(clearState())
      // history.push('/login')
     }
-
-  }, [isError])
+    if(IsOldpass)  
+    {
+      dispatch(clearState())
+       history.push('/update')
+    }
+  }, [IsOldpass,isError])
   const onLogOut = () => {
     localStorage.removeItem('token')
     history.push('/login')
   }
+
+
   const onDelete = Id => {
     dispatch(deleteCandidateById({ Id: Id }))
     dispatch(deleteCandidateById({ Id: Id }))

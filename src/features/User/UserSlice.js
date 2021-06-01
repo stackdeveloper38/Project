@@ -29,7 +29,32 @@ export const ApproveIt = createAsyncThunk(
     }
   }
 )
-
+export const isOldp = createAsyncThunk(
+  'users/isOldp',
+  async (thunkAPI) => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch('http://localhost:9002/isOldPass', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token
+        }
+      })
+      let data = await response.json()
+    //  console.log('datapppp', data)
+      if (response.status === 200) {
+        return { ...data }
+      } else {
+        return thunkAPI.rejectWithValue(data)
+      }
+    } catch (e) {
+      console.log('Error', e.response.data)
+      return thunkAPI.rejectWithValue(e.response.data)
+    }
+  }
+)
 export const NewCandidat = createAsyncThunk(
   'users/NewCandidat',
   async (
@@ -421,6 +446,7 @@ export const userSlice = createSlice({
     isSuccess: false,
     isError: false,
     IsOld: true,
+    IsOldpass: false,
     errorMessage: '',
     notifies: [],
     Candidates: [],
@@ -435,6 +461,7 @@ export const userSlice = createSlice({
       state.notifies = []
       state.IsOld = true
       state.students = []
+      state.IsOldpass = false
       state.Candidates = []
       state.isSuccessOk = false
       state.isElectionOn = false
@@ -542,7 +569,12 @@ export const userSlice = createSlice({
     [loginUser.pending]: state => {
       state.isFetching = true
     },
-
+    [isOldp.fulfilled]: (state, { payload }) => {
+      state.isFetching = false
+      state.isSuccess = true
+     // console.log(payload.result)
+      state.IsOldpass = payload.result
+    },
     [IsOldPassword.fulfilled]: (state, { payload }) => {
       state.isFetching = false
       state.isSuccess = true
