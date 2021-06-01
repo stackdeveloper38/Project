@@ -92,9 +92,7 @@ const Candidate = () => {
   const data = Candidates
   return (
     <div className='container-fluid mx-auto vrrfdc h-100'>
-      {isFetching ? (
-        <Loader type='Puff' color='#00BFFF' height={100} width={100} />
-      ) : (
+
         <Fragment>
           <div className='row vh-100 justify-content-center'>
             <div
@@ -208,7 +206,7 @@ const Candidate = () => {
             </div>
           </div>
         </Fragment>
-      )}
+   
     </div>
   )
 }
