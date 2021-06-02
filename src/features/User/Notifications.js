@@ -26,6 +26,7 @@ const Dashboard = () => {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(isOldp())
+    console.log("jj")
     dispatch(
       fetchNotifyBytoken({
         token: localStorage.getItem('token'),
