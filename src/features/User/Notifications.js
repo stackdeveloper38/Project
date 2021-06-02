@@ -3,6 +3,7 @@ import {Modal} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { useSelector, useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
+import { Link } from "react-router-dom";
 import {
   userSelector,
   fetchNotifyBytoken,
@@ -115,12 +116,12 @@ const Dashboard = () => {
             >
               Log Out
             </button>
-            <a
-              href='/profile'
+            <Link
+              to='/profile'
               className='bg-blue-500 mr-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right'
             >
               Profile
-            </a>
+            </Link>
           </div>
           <div
             className='col-xs-12 col-md-2'

@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
+import { Link } from "react-router-dom";
 import {
   election,
   userSelector,
@@ -105,12 +106,12 @@ const Candidate = () => {
               >
                 Log Out
               </button>
-              <a
-                href='/profile'
+              <Link
+                to='/profile'
                 className='bg-blue-500 mr-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right'
               >
                 Profile
-              </a>
+              </Link>
             </div>
             <div
               className='col-xs-12 col-md-2'

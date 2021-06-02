@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { isOldp, userSelector, fetchUserBytoken, clearState } from './UserSlice'
-import Loader from 'react-loader-spinner'
+import { Link } from "react-router-dom";
 import { useHistory } from 'react-router-dom'
 import { Table } from 'reactstrap'
 import toast from 'react-hot-toast'
@@ -61,12 +61,12 @@ const Dashboard = () => {
               >
                 Log Out
               </button>
-              <a
-                href='/profile'
+              <Link
+                to='/profile'
                 className='bg-blue-500 mr-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right'
               >
                 Profile
-              </a>
+              </Link>
             </div>
             <div
               className='col-xs-12 col-md-2'
