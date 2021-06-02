@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-
+import {
+  Link
+} from "react-router-dom";
 class Header extends Component {
   render () {
     return (
@@ -8,8 +10,8 @@ class Header extends Component {
           className='text-left'
           style={{ position: 'relative', padding: '10px' }}
         >
-          <a
-            href='/dashboard'
+          <Link
+            to='/dashboard'
             style={{ color: 'white', textDecoration: 'none' }}
           >
             <i
@@ -17,14 +19,14 @@ class Header extends Component {
               style={{ fontSize: '22px', marginRight: '15px' }}
             ></i>
             <span>Students</span>
-          </a>
+          </Link>
         </li>
         <li
           className='text-left'
           style={{ position: 'relative', padding: '10px' }}
         >
-          <a
-            href='/candidates'
+          <Link
+            to='/candidates'
             style={{ color: 'white', textDecoration: 'none' }}
           >
             <i
@@ -32,14 +34,14 @@ class Header extends Component {
               style={{ fontSize: '22px', marginRight: '15px' }}
             ></i>
             <span>Election</span>
-          </a>
+          </Link>
         </li>
         <li
           className='text-left'
           style={{ position: 'relative', padding: '10px' }}
         >
-          <a
-            href='/notifications'
+          <Link
+            to='/notifications'
             style={{ color: 'white', textDecoration: 'none' }}
           >
             <i
@@ -47,7 +49,7 @@ class Header extends Component {
               style={{ fontSize: '22px', marginRight: '15px' }}
             ></i>
             <span>Notifications</span>
-          </a>
+          </Link>
         </li>
       </ul>
     )
