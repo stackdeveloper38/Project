@@ -107,7 +107,7 @@ const Candidate = () => {
             </button>
             <Link
               to='/profile'
-              className='bg-blue-500 mr-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right'
+              className='bg-blue-500 mr-2 text-white font-bold py-2 px-4 rounded float-right'
             >
               Profile
             </Link>
