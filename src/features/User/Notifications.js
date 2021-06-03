@@ -1,9 +1,9 @@
-import React, { Fragment, useEffect,useState } from 'react'
-import {Modal} from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
+import React, { Fragment, useEffect, useState } from 'react'
+import { Modal } from 'react-bootstrap'
+import Button from 'react-bootstrap/Button'
 import { useSelector, useDispatch } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 import {
   userSelector,
   fetchNotifyBytoken,
@@ -17,17 +17,17 @@ import { Table } from 'reactstrap'
 import toast from 'react-hot-toast'
 import LeftMenu from './LeftMenu'
 const Dashboard = () => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false)
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   const { register, errors, handleSubmit } = useForm()
   const history = useHistory()
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(isOldp())
-    console.log("jj")
+    console.log('jj')
     dispatch(
       fetchNotifyBytoken({
         token: localStorage.getItem('token'),
@@ -135,94 +135,89 @@ const Dashboard = () => {
               height: '100%',
               padding: '15px',
               backgroundColor: '#eee'
-            }}>
+            }}
+          >
+            <Button
+              variant='primary'
+              onClick={handleShow}
+              style={{ float: 'right' }}
+            >
+              Create
+            </Button>
 
-<Button variant="primary" onClick={handleShow} style={{ float:"right"}}>
-        Create
-</Button>
-
-
-<Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-
-        <form onSubmit={handleSubmit(onSubmit)} method='POST'>
-                      <div className='form-group' style={{ textAlign: 'left' }}>
-                        <small style={{ width: '100%' }}>Title</small>
-                        <div
-                          className='input-group mb-3 input-group-sm'
-                          style={{ marginTop: '10px' }}>
-                          <div className='input-group-prepend'>
-                            <span
-                              className='input-group-text'
-                              style={{ borderRadius: '0' }}>
-                              <i className='las la-envelope'></i>
-                            </span>
-                          </div>
-                          <input
-                            id='title'
-                            name='title'
-                            type='title'
-                            autocomplete='title'
-                            required
-                            ref={register({ required: true })}
-                            className='form-control'/>
-                        </div>
+            <Modal show={show} onHide={handleClose}>
+              <Modal.Header closeButton>
+                <Modal.Title>Modal heading</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <form onSubmit={handleSubmit(onSubmit)} method='POST'>
+                  <div className='form-group' style={{ textAlign: 'left' }}>
+                    <small style={{ width: '100%' }}>Title</small>
+                    <div
+                      className='input-group mb-3 input-group-sm'
+                      style={{ marginTop: '10px' }}
+                    >
+                      <div className='input-group-prepend'>
+                        <span
+                          className='input-group-text'
+                          style={{ borderRadius: '0' }}
+                        >
+                          <i className='las la-envelope'></i>
+                        </span>
                       </div>
-                      <div className='form-group' style={{ textAlign: 'left' }}>
-                        <small style={{ width: '100%' }}>Content</small>
-                        <div
-                          className='input-group mb-3 input-group-sm'
-                          style={{ marginTop: '10px' }}>
-                          <div className='input-group-prepend'>
-                            <span
-                              className='input-group-text'
-                              style={{ borderRadius: '0' }}>
-                              <i className='las la-envelope'></i>
-                            </span>
-                          </div>
-                          <input
-                            id='content'
-                            name='content'
-                            type='content'
-                            ref={register({ required: true })}
-                            autoComplete='department'
-                            required
-                            className='form-control'
-                          />
-                        </div>
+                      <input
+                        id='title'
+                        name='title'
+                        type='title'
+                        autocomplete='title'
+                        required
+                        ref={register({ required: true })}
+                        className='form-control'
+                      />
+                    </div>
+                  </div>
+                  <div className='form-group' style={{ textAlign: 'left' }}>
+                    <small style={{ width: '100%' }}>Content</small>
+                    <div
+                      className='input-group mb-3 input-group-sm'
+                      style={{ marginTop: '10px' }}
+                    >
+                      <div className='input-group-prepend'>
+                        <span
+                          className='input-group-text'
+                          style={{ borderRadius: '0' }}
+                        >
+                          <i className='las la-envelope'></i>
+                        </span>
                       </div>
-                      <button
-                        type='submit'
-                        className='btn btn-primary btn-block'
-                      
-                        style={{ marginTop: '15px' }}>
-                        Create
-                      </button>
-                    </form>
+                      <input
+                        id='content'
+                        name='content'
+                        type='content'
+                        ref={register({ required: true })}
+                        autoComplete='department'
+                        required
+                        className='form-control'
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type='submit'
+                    className='btn btn-primary btn-block float-right'
+                    style={{ marginTop: '15px' }}
+                  >
+                    Create
+                  </button>
+                </form>
+              </Modal.Body>
+            </Modal>
 
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-
-
-
-   
-            
             <br />
             <h3 style={{ marginTop: '30px' }}>Notifications</h3>
             <Table>
               <thead>
                 <tr>
-                  <th>Title</th>
-                  <th>#</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -230,15 +225,12 @@ const Dashboard = () => {
                   return (
                     <Fragment key={idx}>
                       <tr>
-                        <td  data-bs-toggle='modal'
-                        data-bs-target={'#exampleModal-' + d.id}
-                        style={{ cursor: 'pointer' }}>{d.title}</td>
-                        <td>
-                          <div
-                            class='btn btn-danger'
-                            onClick={() => onDelete(d.id)}>
-                            Delete
-                          </div>
+                        <td
+                          data-bs-toggle='modal'
+                          data-bs-target={'#exampleModal-' + d.id}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          {d.title}
                         </td>
                       </tr>
                       <div
@@ -246,7 +238,8 @@ const Dashboard = () => {
                         id={'exampleModal-' + d.id}
                         tabindex='-1'
                         aria-labelledby='exampleModalLabel'
-                        aria-hidden='true'>
+                        aria-hidden='true'
+                      >
                         <div class='modal-dialog modal-lg'>
                           <div class='modal-content'>
                             <div class='modal-header'>
@@ -257,19 +250,21 @@ const Dashboard = () => {
                                 type='button'
                                 class='btn-close'
                                 data-bs-dismiss='modal'
-                                aria-label='Close'></button>
+                                aria-label='Close'
+                              ></button>
                             </div>
                             <div class='modal-body'>
-                              <table class='table table-striped'>
-                                <thead></thead>
-                                <tbody>
-                                  <tr>
-                                    <td>{d.content}</td>
-                                  </tr>
-                                </tbody>
-                              </table>
+                              <p>{d.content}</p>
                             </div>
-                            <div class='modal-footer'></div>
+                            <div class='modal-footer'>
+                              {' '}
+                              <div
+                                class='btn btn-danger'
+                                onClick={() => onDelete(d.id)}
+                              >
+                                Delete
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>

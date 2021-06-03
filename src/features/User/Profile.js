@@ -9,11 +9,10 @@ import {
 } from './UserSlice'
 import { useHistory } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import Loader from 'react-loader-spinner'
 import LeftMenu from './LeftMenu'
 const Update = () => {
   const dispatch = useDispatch()
-  const { register, errors, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm()
   const history = useHistory()
   const { IsOld, isFetching, isSuccess, isError, errorMessage } = useSelector(
     userSelector
