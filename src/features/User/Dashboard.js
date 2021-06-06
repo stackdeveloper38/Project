@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { isOldp, userSelector, fetchUserBytoken, clearState } from './UserSlice'
+import { isOldp, userSelector, fetchUserBytoken, clearState,sendActivationMail } from './UserSlice'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import { Table } from 'reactstrap'
@@ -10,36 +10,35 @@ import LeftMenu from './LeftMenu'
 const Dashboard = () => {
   const history = useHistory()
   const dispatch = useDispatch()
-  const sendbulkmail = () => {
-    fetch('http://localhost:9002/sendbulkmail')
-      .then(result => {
-        toast.success('Bulk Mail has been Send')
-        return result.json()
-      })
-      .then(jsonResult => {
-        toast.error(jsonResult.message)
-      })
-  }
+
 
   useEffect(() => {
     dispatch(isOldp())
     dispatch(fetchUserBytoken({ token: localStorage.getItem('token') }))
   }, [])
-  const { IsOldpass, isFetching, isError, students } = useSelector(userSelector)
+  const { IsOldpass, isFetching, isError, students,IsSend,errorMessage } = useSelector(userSelector)
   useEffect(() => {
     if (isError) {
       dispatch(clearState())
-      history.push('/login')
-    }
+      console.log(errorMessage)
+     toast.error("Error: Connection Closed")
+    } 
     if (IsOldpass) {
       dispatch(clearState())
       history.push('/update')
     }
-  }, [IsOldpass, isError])
+    if(IsSend)
+    {
+      toast.success("Messages Sended");
+    }
+  }, [IsSend,IsOldpass, isError])
   const onLogOut = () => {
     localStorage.removeItem('token')
     history.push('/login')
   }
+  const onBulkSubmit = () => {
+    dispatch(sendActivationMail({url:"http://localhost:9002"}));
+  };
   var divStyle = {
     marginRight: '10px',
     width: '100%'
@@ -82,7 +81,7 @@ const Dashboard = () => {
           >
             <button
               className='btn btn-primary py-2 px-4 rounded float-right'
-              onClick={sendbulkmail}
+              onClick={onBulkSubmit}
             >
               Send Activation Link
             </button>

@@ -34,7 +34,7 @@ export const isOldp = createAsyncThunk(
   async (thunkAPI) => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:9002/isOldPassword', {
+      const response = await fetch('http://localhost:9002/isOldPass', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
@@ -173,6 +173,37 @@ export const NewDates = createAsyncThunk(
     }
   }
 )
+
+export const sendActivationMail = createAsyncThunk(
+  'users/sendActivationMail',
+  async ({url},thunkAPI) => {
+    console.log(url)
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch('http://localhost:9002/students/sendActivationMail', {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + token
+        },
+        body: JSON.stringify({
+          url
+        })
+      })
+      let data = await response.json()
+      console.log('data', data)
+      if (response.status === 200) {
+        return { ...data }
+      } else {
+        return thunkAPI.rejectWithValue(data)
+      }
+    } catch (e) {
+      console.log('Error', e.response.data)
+      return thunkAPI.rejectWithValue(e.response.data)
+    }
+  }
+)
+
 export const deleteCandidateById = createAsyncThunk(
   'users/deleteCandidateById',
   async ({ Id }, thunkAPI) => {
@@ -477,7 +508,8 @@ export const userSlice = createSlice({
     notifies: [],
     Candidates: [],
     isSuccessOk: false,
-    isElectionOn:""
+    isElectionOn:"",
+    IsSend:false
   },
   reducers: {
     clearState: state => {
@@ -491,6 +523,7 @@ export const userSlice = createSlice({
       state.Candidates = []
       state.isSuccessOk = false
       state.isElectionOn = ""
+      state.IsSend = false
       return state
     }
   },
@@ -589,6 +622,20 @@ export const userSlice = createSlice({
       state.isError = true
       state.errorMessage = payload
       state.isOld = null;
+    },   
+    [sendActivationMail.fulfilled]: (state, { payload }) => {
+      console.log('payload', payload)
+      state.isFetching = false
+      state.isSuccess = true
+      state.IsSend = true
+    },
+    [sendActivationMail.pending]: state => {
+      state.isFetching = true
+    },
+    [sendActivationMail.rejected]: (state, { payload }) => {
+      state.isFetching = false
+      state.isError = true
+      state.errorMessage = payload
     },
     [loginUser.fulfilled]: (state, { payload }) => {
       //  state.username = payload.name;
