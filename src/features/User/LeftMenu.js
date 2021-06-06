@@ -26,7 +26,7 @@ class Header extends Component {
           style={{ position: 'relative', padding: '10px' }}
         >
           <Link
-            to='/candidates'
+            to='/elections'
             style={{ color: 'white', textDecoration: 'none' }}
           >
             <i

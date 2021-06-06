@@ -26,7 +26,7 @@ function App () {
             component={newnotification}
             path='/newnotification'
           />
-          <PrivateRoute exact component={election} path='/candidates' />
+          <PrivateRoute exact component={election} path='/elections' />
           <Route component={notfound} />
         </Switch>
       </Router>

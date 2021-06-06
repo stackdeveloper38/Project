@@ -9,11 +9,10 @@ import {
 } from './UserSlice'
 import { useHistory } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import Loader from 'react-loader-spinner'
 import LeftMenu from './LeftMenu'
 const Update = () => {
   const dispatch = useDispatch()
-  const { register, errors, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm()
   const history = useHistory()
   const { IsOld, isFetching, isSuccess, isError, errorMessage } = useSelector(
     userSelector
@@ -68,7 +67,7 @@ const Update = () => {
             </button>
             <a
               href='/profile'
-              className='bg-blue-500 mr-2 hover:bg-red-700 text-white font-bold py-2 px-4 rounded float-right'
+              className='bg-blue-500 mr-2 text-white font-bold py-2 px-4 rounded float-right'
             >
               Profile
             </a>

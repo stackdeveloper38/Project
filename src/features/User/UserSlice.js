@@ -301,22 +301,22 @@ export const updatePassword = createAsyncThunk(
 )
 
 export const election = createAsyncThunk(
-  'users/electionStatus',
+  'users/updateElectionStatus',
   async (thunkAPI) => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:9002/electionStatus', {
-        method: 'GET',
+      const response = await fetch('http://localhost:9002/updateElectionStatus', {
+        method: 'PUT',
         headers: {
           Accept: 'application/json',
-          Authorization: 'Bearer ' + token,
-          'Content-Type': 'application/json'
+          Authorization: 'Bearer ' + token
           //department: department
         }
       })
       let data = await response.json()
-      //  console.log('data', data, response.status);
+        console.log('data', data, response.status);
       if (response.status === 200) {
+        console.log('dataiiiiiiiiii');
         return { ...data }
       } else {
         return thunkAPI.rejectWithValue(data)
@@ -328,7 +328,33 @@ export const election = createAsyncThunk(
   }
 )
 
-
+export const getElectionStatus = createAsyncThunk(
+  'users/getElectionStatus',
+  async (thunkAPI) => {
+    try {
+      const token = localStorage.getItem('token')
+      const response = await fetch('http://localhost:9002/getElectionStatus', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + token
+          //department: department
+        }
+      })
+      let data = await response.json()
+        console.log('data', data, response.status);
+      if (response.status === 200) {
+        console.log('dataiiiiiiiiii');
+        return { ...data }
+      } else {
+        return thunkAPI.rejectWithValue(data)
+      }
+    } catch (e) {
+      console.log('Error', e.response.data)
+      return thunkAPI.rejectWithValue(e.response.data)
+    }
+  }
+)
 
 export const fetchNotifyBytoken = createAsyncThunk(
   'users/fetchNotifyBytoken',
@@ -451,7 +477,7 @@ export const userSlice = createSlice({
     notifies: [],
     Candidates: [],
     isSuccessOk: false,
-    isElectionOn:false
+    isElectionOn:""
   },
   reducers: {
     clearState: state => {
@@ -464,7 +490,7 @@ export const userSlice = createSlice({
       state.IsOldpass = false
       state.Candidates = []
       state.isSuccessOk = false
-      state.isElectionOn = false
+      state.isElectionOn = ""
       return state
     }
   },
@@ -486,7 +512,7 @@ export const userSlice = createSlice({
     
       state.isFetching = false
       state.isSuccess = true
-      console.log("ppp",payload);
+     
       state.isElectionOn = payload.election.status
     },
     [election.pending]: state => {
@@ -496,6 +522,37 @@ export const userSlice = createSlice({
       state.isFetching = false
       state.isError = true
       state.errorMessage = payload
+    },
+    
+    [getElectionStatus.fulfilled]: (state, { payload }) => {
+    
+      state.isFetching = false
+      state.isSuccess = true
+     
+      state.isElectionOn = payload.election.status
+    },
+    [getElectionStatus.pending]: state => {
+      state.isFetching = true
+    },
+    [getElectionStatus.rejected]: (state, { payload }) => {
+      state.isFetching = false
+      state.isError = true
+      state.errorMessage = payload
+    },
+    [deleteCandidateById.fulfilled]: (state, { payload }) => {
+    
+      state.isFetching = false
+      state.isSuccess = true
+      console.log("ppp",payload);
+      state.isElectionOn = payload.election.status
+    },
+    [deleteCandidateById.pending]: state => {
+      state.isFetching = true
+    },
+    [deleteCandidateById.rejected]: (state, { payload }) => {
+      state.isFetching = false
+      state.isError = true
+      state.errorMessage = payload.message
     },
     [deleteNotifyById.fulfilled]: (state, { payload }) => {
       console.log('payload', payload)
