@@ -15,7 +15,7 @@ const Update = () => {
 
   const onSubmit = (data) => {  
     dispatch(updatePassword(data));  
-    history.push('/Dashboard');
+    
 
   };
 
@@ -28,8 +28,8 @@ const Update = () => {
 
   useEffect(() => {
     if (isSuccess) {
-        // dispatch(clearState());
-         //history.push('/Dashboard');
+        dispatch(clearState());
+         history.push('/Dashboard');
     }
 
     if (isError) {

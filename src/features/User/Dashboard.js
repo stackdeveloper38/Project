@@ -13,8 +13,9 @@ const Dashboard = () => {
 
 
   useEffect(() => {
-    dispatch(isOldp())
+  
     dispatch(fetchUserBytoken({ token: localStorage.getItem('token') }))
+    dispatch(isOldp())
   }, [])
   const { IsOldpass, isFetching, isError, students,IsSend,errorMessage } = useSelector(userSelector)
   useEffect(() => {
