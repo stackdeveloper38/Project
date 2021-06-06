@@ -41,10 +41,17 @@ const Candidate = () => {
   } = useSelector(userSelector)
   useEffect(() => {
     if (isError) {
-    //  dispatch(clearState())
+    
     if(errorMessage != undefined)
     {
+      dispatch(clearState())
       toast.error(errorMessage);
+      dispatch(
+        fetchCandidateBytoken({
+          token: localStorage.getItem('token'),
+          department: 'admin'
+        })
+      )
     }
       
       // history.push('/login')
@@ -61,19 +68,14 @@ const Candidate = () => {
 
   const onDelete = Id => {
     dispatch(deleteCandidateById({ Id: Id }))
-    dispatch(deleteCandidateById({ Id: Id }))
+    //dispatch(deleteCandidateById({ Id: Id }))
     dispatch(
       fetchCandidateBytoken({
         token: localStorage.getItem('token'),
         department: 'admin'
       })
     )
-    dispatch(
-      fetchCandidateBytoken({
-        token: localStorage.getItem('token'),
-        department: 'admin'
-      })
-    )
+
   }
 
   const Election = () => {
