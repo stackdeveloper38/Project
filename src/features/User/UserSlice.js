@@ -34,7 +34,7 @@ export const isOldp = createAsyncThunk(
   async (thunkAPI) => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:9002/isOldPass', {
+      const response = await fetch('http://localhost:9002/isOldPassword', {
         method: 'GET',
         headers: {
           Accept: 'application/json',
