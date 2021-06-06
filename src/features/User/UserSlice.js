@@ -177,7 +177,6 @@ export const NewDates = createAsyncThunk(
 export const sendActivationMail = createAsyncThunk(
   'users/sendActivationMail',
   async ({url},thunkAPI) => {
-    console.log(url)
     try {
       const token = localStorage.getItem('token')
       const response = await fetch('http://localhost:9002/students/sendActivationMail', {
@@ -186,9 +185,7 @@ export const sendActivationMail = createAsyncThunk(
           Accept: 'application/json',
           Authorization: 'Bearer ' + token
         },
-        body: JSON.stringify({
-          url
-        })
+        body: url
       })
       let data = await response.json()
       console.log('data', data)
