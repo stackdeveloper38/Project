@@ -19,9 +19,7 @@ const Dashboard = () => {
   const { IsOldpass, isFetching, isError, students,IsSend,errorMessage } = useSelector(userSelector)
   useEffect(() => {
     if (isError) {
-      dispatch(clearState())
-      console.log(errorMessage)
-     toast.error("Error: Connection Closed")
+     toast.error("Error:" + errorMessage)
     } 
     if (IsOldpass) {
       dispatch(clearState())
