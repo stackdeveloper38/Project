@@ -22,6 +22,7 @@ const Candidate = () => {
   const dispatch = useDispatch()
   const { register, errors, handleSubmit } = useForm()
   useEffect(() => {
+    
    dispatch(getElectionStatus())
     dispatch(isOldp())
     dispatch(

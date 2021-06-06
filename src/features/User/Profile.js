@@ -2,10 +2,10 @@ import React, { Fragment, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  IsOldPassword,
   updatePassword,
   userSelector,
-  clearState
+  clearState,
+  isOldp
 } from './UserSlice'
 import { useHistory } from 'react-router-dom'
 import toast from 'react-hot-toast'
@@ -14,39 +14,43 @@ const Update = () => {
   const dispatch = useDispatch()
   const { register, handleSubmit } = useForm()
   const history = useHistory()
-  const { IsOld, isFetching, isSuccess, isError, errorMessage } = useSelector(
+  const { isPasswordChange, IsOld, isFetching, isSuccess, isError, errorMessage,IsOldpass } = useSelector(
     userSelector
   )
 
   const onSubmit = data => {
+    dispatch(clearState())
     dispatch(updatePassword(data))
+ 
   }
-
   useEffect(() => {
-    dispatch(IsOldPassword())
+    dispatch(isOldp())
+  }, [])
+  useEffect(() => {
     return () => {
       dispatch(clearState())
     }
   }, [])
 
   useEffect(() => {
+   
     if (isSuccess) {
       dispatch(clearState())
-      //history.push('/Dashboard');
     }
-
+    if (isPasswordChange) {
+      toast.success("Password Changed")
+      dispatch(clearState())
+   //   history.push('/profile')
+    }
     if (isError) {
       toast.error(errorMessage)
-      // console.log(errorMessage);
       dispatch(clearState())
     }
-    // console.log(IsOld);
-    if (IsOld) {
-      //toast.error(IsOld);
-    } else {
-      // history.push('/');
+    if (IsOldpass) {
+      dispatch(clearState())
+      history.push('/update')
     }
-  }, [IsOld, isSuccess, isError])
+  }, [IsOldpass,isPasswordChange,IsOld, isSuccess, isError])
   const onLogOut = () => {
     localStorage.removeItem('token')
     history.push('/login')
@@ -186,7 +190,7 @@ const Update = () => {
           </div>
         </div>
       </Fragment>
-      }
+      
     </div>
   )
 }

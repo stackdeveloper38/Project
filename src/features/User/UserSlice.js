@@ -500,6 +500,7 @@ export const userSlice = createSlice({
     isSuccess: false,
     isError: false,
     IsOld: true,
+    isPasswordChange:false,
     IsOldpass: false,
     errorMessage: '',
     notifies: [],
@@ -514,6 +515,7 @@ export const userSlice = createSlice({
       state.isSuccess = false
       state.isFetching = false
       state.notifies = []
+      state.isPasswordChange=false
       state.IsOld = true
       state.students = []
       state.IsOldpass = false
@@ -666,6 +668,7 @@ export const userSlice = createSlice({
       state.isFetching = false
       state.isSuccess = true
       state.isError = false
+      state.isPasswordChange = true
     },
     [loginUser.pending]: state => {
       state.isFetching = true

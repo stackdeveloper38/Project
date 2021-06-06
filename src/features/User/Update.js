@@ -15,12 +15,9 @@ const Update = () => {
 
   const onSubmit = (data) => {  
     dispatch(updatePassword(data));  
-    
-
   };
 
   useEffect(() => { 
-    //dispatch(IsOldPassword());
     return () => {
       dispatch(clearState());
     };
@@ -29,20 +26,11 @@ const Update = () => {
   useEffect(() => {
     if (isSuccess) {
         dispatch(clearState());
-         history.push('/Dashboard');
+        history.push('/Dashboard');
     }
-
     if (isError) {
       toast.error(errorMessage);
-     // console.log(errorMessage);
       dispatch(clearState());
-    }
-   // console.log(IsOld);
-    if(IsOld){
-     //toast.error(IsOld);
-    }
-    else{
-     // history.push('/Dashboard');
     }
   }, [IsOld,isSuccess, isError]);
   const onLogOut = () => {

@@ -24,9 +24,7 @@ const Dashboard = () => {
     } 
    
     if (IsOldpass) {
-      console.log("ww",IsOldpass)
-     // toast.error("Error:" + errorMessage)
-    //  dispatch(clearState())
+      dispatch(clearState());
      history.push('/update')
     }
     if(IsSend)
