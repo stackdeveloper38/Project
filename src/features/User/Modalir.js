@@ -1,16 +1,18 @@
 import React from "react";
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   deleteCandidateById
 } from './UserSlice'
 function Modalir(props) {
-  const { show, closeModal, grade, gpa, description, name,surname, ids, onFet } = props;
+  const { show, closeModal, grade, gpa, description, name,surname, ids, onFet, onClear } = props;
   const dispatch = useDispatch()
-  const onDelete = Id => {
-    console.log(ids)
-    dispatch(deleteCandidateById({ Id: Id })) 
-    closeModal()
-    onFet()
+  const onDelete = () => {
+   
+    dispatch(deleteCandidateById({ Id: ids })) 
+   // closeModal()
+   // onClear()
+  //  onFet()
+
   }
   return (
     <>

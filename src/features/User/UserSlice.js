@@ -508,7 +508,8 @@ export const userSlice = createSlice({
     Candidates: [],
     isSuccessOk: false,
     isElectionOn:"",
-    IsSend:false
+    IsSend:false,
+    IsDel:false
   },
   reducers: {
     clearState: state => {
@@ -524,6 +525,7 @@ export const userSlice = createSlice({
       state.isSuccessOk = false
       state.isElectionOn = ""
       state.IsSend = false
+      state.IsDel = false
       return state
     }
   },
@@ -578,6 +580,7 @@ export const userSlice = createSlice({
       state.isSuccess = true
       console.log("ppp",payload);
       state.isElectionOn = payload.election.status
+      state.IsDel = true
     },
     [deleteCandidateById.pending]: state => {
       state.isFetching = true

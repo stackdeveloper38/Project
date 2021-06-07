@@ -33,6 +33,8 @@ const Candidate = () => {
   const openModal = (grade1,gpa1,description1,name1,surname1,id1) => setState({show:true,grade:grade1,gpa:gpa1,description:description1,name:name1,surname:surname1,ids:id1});
   const closeModal = () => setState({show:false});
   const onFet = () => dispatch(fetchCandidateBytoken({token: localStorage.getItem('token'), department: 'admin' }))
+const onClear = () => dispatch(clearState())
+//const onDel = (Id) => dispatch(deleteCandidateById({ Id: Id }))
 
   useEffect(() => {
    dispatch(getElectionStatus())
@@ -48,6 +50,7 @@ const Candidate = () => {
     IsOldpass,
     isElectionOn,
     isError,
+    IsDel,
     Candidates,
     errorMessage
   } = useSelector(userSelector)
@@ -66,12 +69,21 @@ const Candidate = () => {
       )
     }
   }
-
+if(IsDel){
+  dispatch(clearState())
+  dispatch(
+    fetchCandidateBytoken({
+      token: localStorage.getItem('token'),
+      department: 'admin'
+    })
+  )
+  closeModal()
+}
   if (IsOldpass) {
       dispatch(clearState())
       history.push('/update')
     }
-  }, [IsOldpass, isError])
+  }, [IsDel,IsOldpass, isError])
 
   const onLogOut = () => {
     localStorage.removeItem('token')
@@ -153,7 +165,7 @@ const Candidate = () => {
             </div>  
 
           
-             <Modalir closeModal={closeModal} onFet={onFet} show={state.show} grade={state.grade} gpa={state.gpa} description={state.description} name={state.name} surname={state.surname} ids={state.ids}/>
+             <Modalir closeModal={closeModal} onClear={onClear} onFet={onFet} show={state.show} grade={state.grade} gpa={state.gpa} description={state.description} name={state.name} surname={state.surname} ids={state.ids}/>
             <br />
             <br />
             <h3 style={{ marginTop: '30px' }}>Candidates</h3>
