@@ -1,6 +1,7 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState ,setState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Modalir from './Modalir.js';
 import toast from 'react-hot-toast';
 import {
   election,
@@ -12,6 +13,7 @@ import {
   ApproveIt,
   isOldp
 } from './UserSlice'
+
 import { useHistory } from 'react-router-dom'
 import { Table } from 'reactstrap'
 import LeftMenu from './LeftMenu'
@@ -19,8 +21,20 @@ import LeftMenu from './LeftMenu'
 const Candidate = () => {
   const history = useHistory()
   const dispatch = useDispatch()
+  const initialState = {
+    show:false
+  };
+
+  const [state,setState] = useState(initialState);
+
+
+
+
+  const openModal = (grade1,gpa1,description1,name1,surname1,id1) => setState({show:true,grade:grade1,gpa:gpa1,description:description1,name:name1,surname:surname1,ids:id1});
+  const closeModal = () => setState({show:false});
+  const onFet = () => dispatch(fetchCandidateBytoken({token: localStorage.getItem('token'), department: 'admin' }))
+
   useEffect(() => {
-    
    dispatch(getElectionStatus())
     dispatch(isOldp())
     dispatch(
@@ -64,15 +78,14 @@ const Candidate = () => {
     history.push('/login')
   }
 
-  const onDelete = Id => {
-    dispatch(deleteCandidateById({ Id: Id })) 
-    window.location.reload()
-  }
+
 
   const Election = () => {
     dispatch(election())    
     dispatch(getElectionStatus())
   }
+
+
 
   const onApprove = (Id, what) => {
     dispatch(
@@ -85,6 +98,7 @@ const Candidate = () => {
       })
     )
   }
+
 
   const data = Candidates
   return (
@@ -136,7 +150,10 @@ const Candidate = () => {
               onClick={() => Election()}
             >
               Next Stage
-            </div>
+            </div>  
+
+          
+             <Modalir closeModal={closeModal} onFet={onFet} show={state.show} grade={state.grade} gpa={state.gpa} description={state.description} name={state.name} surname={state.surname} ids={state.ids}/>
             <br />
             <br />
             <h3 style={{ marginTop: '30px' }}>Candidates</h3>
@@ -153,8 +170,7 @@ const Candidate = () => {
                   return (
                     <Fragment key={idx}>
                       <tr
-                        data-bs-toggle='modal'
-                        data-bs-target={'#exampleModal-' + d.id}
+                       onClick={() => openModal(d.student.grade,d.student.gpa,d.description,d.student.name,d.student.surname,d.id)}
                         style={{ cursor: 'pointer' }}>
                         <td>{d.studentId}</td>
                         <td>
@@ -162,52 +178,7 @@ const Candidate = () => {
                         </td>
                         {isElectionOn == 'post-election'?<td>{d.votes}</td>:''}
                       </tr>
-                      <div
-                        class='modal fade'
-                        id={'exampleModal-' + d.id}
-                        tabindex='-1'
-                        aria-labelledby='exampleModalLabel'
-                        aria-hidden='true'
-                      >
-                        <div class='modal-dialog modal-lg'>
-                          <div class='modal-content'>
-                            <div class='modal-header'>
-                              <h5 class='modal-title' id='exampleModalLabel'>
-                                {d.student.name} {d.student.surname}
-                              </h5>
-                              <button
-                                type='button'
-                                class='btn-close'
-                                data-bs-dismiss='modal'
-                                aria-label='Close'
-                              ></button>
-                            </div>
-                            <div class='modal-body'>
-                              <table class='table table-striped'>
-                                <thead>
-                                  <tr>
-                                    <th>Grade</th>
-                                    <th>GPA</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>{d.student.grade}</td>
-                                    <td>{d.student.gpa}</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                              <h3>Description</h3>
-                              <p>{d.description}</p>
-                            </div>
-                            <div class='modal-footer'>
-                              <div class='btn btn-danger' onClick={() => onDelete(d.id)}>
-                                Reject
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+            
                     </Fragment>
                   )
                 })}
