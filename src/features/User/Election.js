@@ -1,5 +1,4 @@
 import React, { Fragment, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import toast from 'react-hot-toast';
@@ -20,7 +19,6 @@ import LeftMenu from './LeftMenu'
 const Candidate = () => {
   const history = useHistory()
   const dispatch = useDispatch()
-  const { register, errors, handleSubmit } = useForm()
   useEffect(() => {
     
    dispatch(getElectionStatus())
@@ -35,7 +33,6 @@ const Candidate = () => {
   const {
     IsOldpass,
     isElectionOn,
-    isFetching,
     isError,
     Candidates,
     errorMessage
@@ -54,29 +51,22 @@ const Candidate = () => {
         })
       )
     }
-      
-      // history.push('/login')
-    }
-    if (IsOldpass) {
+  }
+
+  if (IsOldpass) {
       dispatch(clearState())
       history.push('/update')
     }
   }, [IsOldpass, isError])
+
   const onLogOut = () => {
     localStorage.removeItem('token')
     history.push('/login')
   }
 
   const onDelete = Id => {
-    dispatch(deleteCandidateById({ Id: Id }))
-    //dispatch(deleteCandidateById({ Id: Id }))
-    dispatch(
-      fetchCandidateBytoken({
-        token: localStorage.getItem('token'),
-        department: 'admin'
-      })
-    )
-
+    dispatch(deleteCandidateById({ Id: Id })) 
+    window.location.reload()
   }
 
   const Election = () => {
@@ -198,14 +188,12 @@ const Candidate = () => {
                                   <tr>
                                     <th>Grade</th>
                                     <th>GPA</th>
-                                 
                                   </tr>
                                 </thead>
                                 <tbody>
                                   <tr>
                                     <td>{d.student.grade}</td>
                                     <td>{d.student.gpa}</td>
-                                
                                   </tr>
                                 </tbody>
                               </table>
@@ -213,10 +201,7 @@ const Candidate = () => {
                               <p>{d.description}</p>
                             </div>
                             <div class='modal-footer'>
-                              <div
-                                class='btn btn-danger'
-                                onClick={() => onDelete(d.id)}
-                              >
+                              <div class='btn btn-danger' onClick={() => onDelete(d.id)}>
                                 Reject
                               </div>
                             </div>

@@ -231,6 +231,7 @@ export const deleteCandidateById = createAsyncThunk(
     }
   }
 )
+
 export const deleteNotifyById = createAsyncThunk(
   'users/deleteNotifyById',
   async ({ Id }, thunkAPI) => {
