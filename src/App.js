@@ -7,8 +7,6 @@ import dashboard from './features/User/Dashboard'
 import notifications from './features/User/Notifications'
 import election from './features/User/Election'
 import profil from './features/User/Profile'
-import forgotpassword from './features/User/Forgotpassword'
-import beacandidate from './features/User/Beacandidate'
 import newnotification from './features/User/NewNotification'
 import { PrivateRoute } from './helpers/PrivateRoute'
 import notfound from './helpers/NotFound'
@@ -19,13 +17,15 @@ function App () {
         <Switch>
           <Route exact component={login} path='/login' />
           <Route exact component={login} path='/' />
-          <Route exact component={forgotpassword} path='/forgotpassword' />
           <PrivateRoute exact component={profil} path='/profile' />
           <PrivateRoute exact component={update} path='/update' />
           <PrivateRoute exact component={dashboard} path='/dashboard' />
-          <PrivateRoute exact component={beacandidate} path='/beacandidate' />
           <PrivateRoute exact component={notifications} path='/notifications' />
-          <PrivateRoute exact component={newnotification} path='/newnotification'/>
+          <PrivateRoute
+            exact
+            component={newnotification}
+            path='/newnotification'
+          />
           <PrivateRoute exact component={election} path='/elections' />
           <Route component={notfound} />
         </Switch>
@@ -33,4 +33,5 @@ function App () {
     </div>
   )
 }
+
 export default App

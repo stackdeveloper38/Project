@@ -5,9 +5,7 @@ import {
   updatePassword,
   userSelector,
   clearState,
-  isOldp,
-  studentIsPassive,
-  IsExpired
+  isOldp
 } from './UserSlice'
 import { useHistory } from 'react-router-dom'
 import toast from 'react-hot-toast'
@@ -16,21 +14,18 @@ const Update = () => {
   const dispatch = useDispatch()
   const { register, handleSubmit } = useForm()
   const history = useHistory()
-  const { isPasswordChange, IsOld, isFetching, isSuccess, isError, errorMessage,IsOldpass,IsEx, IsPassive } = useSelector(
+  const { isPasswordChange, IsOld, isFetching, isSuccess, isError, errorMessage,IsOldpass } = useSelector(
     userSelector
   )
 
   const onSubmit = data => {
     dispatch(clearState())
     dispatch(updatePassword(data))
+ 
   }
-
   useEffect(() => {
-    dispatch(studentIsPassive())
-    dispatch(IsExpired())
     dispatch(isOldp())
   }, [])
-
   useEffect(() => {
     return () => {
       dispatch(clearState())
@@ -47,11 +42,6 @@ const Update = () => {
       dispatch(clearState())
    //   history.push('/profile')
     }
-    if(IsEx)
-    {
-      localStorage.removeItem('token')
-      history.push('/login')
-    }
     if (isError) {
       toast.error(errorMessage)
       dispatch(clearState())
@@ -60,12 +50,7 @@ const Update = () => {
       dispatch(clearState())
       history.push('/update')
     }
-    if(IsPassive)
-    {
-      localStorage.removeItem('token')
-      history.push('/login')
-    }
-  }, [IsOldpass,isPasswordChange,IsOld, isSuccess, isError, IsPassive])
+  }, [IsOldpass,isPasswordChange,IsOld, isSuccess, isError])
   const onLogOut = () => {
     localStorage.removeItem('token')
     history.push('/login')
@@ -99,7 +84,8 @@ const Update = () => {
           </div>
           <div
             className='col-xs-12 col-md-10'
-            style={{ height: '100%', padding: '15px', backgroundColor: '#eee' }}>
+            style={{ height: '100%', padding: '15px', backgroundColor: '#eee' }}
+          >
             <form onSubmit={handleSubmit(onSubmit)} method='POST'>
               <div
                 className='col-md-6 offset-md-3 col-xs-12 card'
@@ -107,14 +93,17 @@ const Update = () => {
                   marginTop: '100px',
                   background: 'white',
                   padding: '70px'
-                }}>
+                }}
+              >
                 <div
                   className='form-group'
-                  style={{ marginTop: '30px', textAlign: 'left' }}>
+                  style={{ marginTop: '30px', textAlign: 'left' }}
+                >
                   <small style={{ width: '100%' }}>Old Password</small>
                   <div
                     className='input-group mb-3 input-group-sm'
-                    style={{ marginTop: '10px' }}>
+                    style={{ marginTop: '10px' }}
+                  >
                     <div className='input-group-prepend'>
                       <span
                         className='input-group-text'

@@ -15,11 +15,9 @@ const Update = () => {
 
   const onSubmit = (data) => {  
     dispatch(updatePassword(data));  
-    history.push('/Dashboard');
   };
 
   useEffect(() => { 
-    //dispatch(IsOldPassword());
     return () => {
       dispatch(clearState());
     };
@@ -27,21 +25,12 @@ const Update = () => {
 
   useEffect(() => {
     if (isSuccess) {
-        // dispatch(clearState());
-         //history.push('/Dashboard');
+        dispatch(clearState());
+        history.push('/Dashboard');
     }
-
     if (isError) {
       toast.error(errorMessage);
-     // console.log(errorMessage);
       dispatch(clearState());
-    }
-   // console.log(IsOld);
-    if(IsOld){
-     //toast.error(IsOld);
-    }
-    else{
-     // history.push('/Dashboard');
     }
   }, [IsOld,isSuccess, isError]);
   const onLogOut = () => {
@@ -65,7 +54,7 @@ const Update = () => {
                 <div className="input-group-prepend">
                   <span className="input-group-text" style={{ borderRadius: "0" }}><i className="las la-user"></i></span>
                 </div>
-                <input id="oldPassword" name="oldPassword" value="student" ref={register({ required: true })} type="text" autoComplete="oldPassword" required className="form-control" />
+                <input id="oldPassword" name="oldPassword" value="admin" ref={register({ required: true })} type="text" autoComplete="oldPassword" required className="form-control" />
               </div>
             </div>           
             <div className="form-group" style={{textAlign:"left"}}>
