@@ -1,6 +1,12 @@
 import React, { Fragment, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { isOldp, userSelector, fetchUserBytoken, clearState,sendActivationMail } from './UserSlice'
+import {
+  isOldp,
+  userSelector,
+  fetchUserBytoken,
+  clearState,
+  sendActivationMail
+} from './UserSlice'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import { Table } from 'reactstrap'
@@ -11,34 +17,38 @@ const Dashboard = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
-
   useEffect(() => {
-  
     dispatch(fetchUserBytoken({ token: localStorage.getItem('token') }))
     dispatch(isOldp())
   }, [])
-  const { IsOldpass, isFetching, isError, students,IsSend,errorMessage } = useSelector(userSelector)
+  const {
+    IsOldpass,
+    isFetching,
+    isError,
+    students,
+    IsSend,
+    errorMessage
+  } = useSelector(userSelector)
   useEffect(() => {
     if (isError) {
-     toast.error("Error:" + errorMessage)
-    } 
-   
+      toast.error('Error:' + errorMessage)
+    }
+
     if (IsOldpass) {
-      dispatch(clearState());
-     history.push('/update')
+      dispatch(clearState())
+      history.push('/update')
     }
-    if(IsSend)
-    {
-      toast.success("Messages Sended");
+    if (IsSend) {
+      toast.success('Messages Sended')
     }
-  }, [IsSend,IsOldpass, isError])
+  }, [IsSend, IsOldpass, isError])
   const onLogOut = () => {
     localStorage.removeItem('token')
     history.push('/login')
   }
   const onBulkSubmit = () => {
-    dispatch(sendActivationMail({url:"http://localhost:9002"}));
-  };
+    dispatch(sendActivationMail({ url: 'http://localhost:3001' }))
+  }
   var divStyle = {
     marginRight: '10px',
     width: '100%'

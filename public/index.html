@@ -22,17 +22,17 @@
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   <link rel="stylesheet"
     href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-    <link rel="stylesheet" href="//mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.css">
-    <script src="//code.jquery.com/jquery.min.js"></script>
-    <script src="//mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
-    <script>
-      $(function(){
-        $('.alldates').appendDtpicker({'locale':'tr',"dateFormat": "YYYY-MM-DD","dateOnly": true,"closeButton": true});
-        $('.alldates').appendDtpicker({'locale':'tr',"dateFormat": "YYYY-MM-DD","dateOnly": true,"closeButton": true});
-      });
-      </script>
+  <link rel="stylesheet" href="//mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.css">
+  <script src="//code.jquery.com/jquery.min.js"></script>
+  <script src="//mugifly.github.io/jquery-simple-datetimepicker/jquery.simple-dtpicker.js"></script>
+  <script>
+    $(function () {
+      $('.alldates').appendDtpicker({ 'locale': 'tr', "dateFormat": "YYYY-MM-DD", "dateOnly": true, "closeButton": true });
+      $('.alldates').appendDtpicker({ 'locale': 'tr', "dateFormat": "YYYY-MM-DD", "dateOnly": true, "closeButton": true });
+    });
+  </script>
 
-      <!--
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -41,7 +41,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-  <title>React Redux App</title>
+  <title>E-Voting | Admin Dashboard</title>
 </head>
 
 <body>
@@ -57,13 +57,13 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <style>
-      @media screen and (max-width:768px){
-.vh-100 {
-  height: auto !important;
-}
-}
-    </style>
+  <style>
+    @media screen and (max-width:768px) {
+      .vh-100 {
+        height: auto !important;
+      }
+    }
+  </style>
 </body>
 
 </html>
