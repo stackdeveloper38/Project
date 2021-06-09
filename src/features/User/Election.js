@@ -1,8 +1,8 @@
-import React, { Fragment, useEffect, useState ,setState} from 'react'
+import React, { Fragment, useEffect, useState, setState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import Modalir from './Modalir.js';
-import toast from 'react-hot-toast';
+import Modalir from './Modalir.js'
+import toast from 'react-hot-toast'
 import {
   election,
   getElectionStatus,
@@ -22,22 +22,33 @@ const Candidate = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   const initialState = {
-    show:false
-  };
+    show: false
+  }
 
-  const [state,setState] = useState(initialState);
+  const [state, setState] = useState(initialState)
 
-
-
-
-  const openModal = (grade1,gpa1,description1,name1,surname1,id1) => setState({show:true,grade:grade1,gpa:gpa1,description:description1,name:name1,surname:surname1,ids:id1});
-  const closeModal = () => setState({show:false});
-  const onFet = () => dispatch(fetchCandidateBytoken({token: localStorage.getItem('token'), department: 'admin' }))
-const onClear = () => dispatch(clearState())
-//const onDel = (Id) => dispatch(deleteCandidateById({ Id: Id }))
+  const openModal = (grade1, gpa1, description1, name1, surname1, id1) =>
+    setState({
+      show: true,
+      grade: grade1,
+      gpa: gpa1,
+      description: description1,
+      name: name1,
+      surname: surname1,
+      ids: id1
+    })
+  const closeModal = () => setState({ show: false })
+  const onFet = () =>
+    dispatch(
+      fetchCandidateBytoken({
+        token: localStorage.getItem('token'),
+        department: 'admin'
+      })
+    )
+  const onClear = () => dispatch(clearState())
 
   useEffect(() => {
-   dispatch(getElectionStatus())
+    dispatch(getElectionStatus())
     dispatch(isOldp())
     dispatch(
       fetchCandidateBytoken({
@@ -56,48 +67,42 @@ const onClear = () => dispatch(clearState())
   } = useSelector(userSelector)
   useEffect(() => {
     if (isError) {
-    
-    if(errorMessage != undefined)
-    {
+      if (errorMessage != undefined) {
+        dispatch(clearState())
+        toast.error(errorMessage)
+        dispatch(
+          fetchCandidateBytoken({
+            token: localStorage.getItem('token'),
+            department: 'admin'
+          })
+        )
+      }
+    }
+    if (IsDel) {
       dispatch(clearState())
-      toast.error(errorMessage);
       dispatch(
         fetchCandidateBytoken({
           token: localStorage.getItem('token'),
           department: 'admin'
         })
       )
+      closeModal()
     }
-  }
-if(IsDel){
-  dispatch(clearState())
-  dispatch(
-    fetchCandidateBytoken({
-      token: localStorage.getItem('token'),
-      department: 'admin'
-    })
-  )
-  closeModal()
-}
-  if (IsOldpass) {
+    if (IsOldpass) {
       dispatch(clearState())
       history.push('/update')
     }
-  }, [IsDel,IsOldpass, isError])
+  }, [IsDel, IsOldpass, isError])
 
   const onLogOut = () => {
     localStorage.removeItem('token')
     history.push('/login')
   }
 
-
-
   const Election = () => {
-    dispatch(election())    
+    dispatch(election())
     dispatch(getElectionStatus())
   }
-
-
 
   const onApprove = (Id, what) => {
     dispatch(
@@ -110,7 +115,6 @@ if(IsDel){
       })
     )
   }
-
 
   const data = Candidates
   return (
@@ -162,10 +166,20 @@ if(IsDel){
               onClick={() => Election()}
             >
               Next Stage
-            </div>  
+            </div>
 
-          
-             <Modalir closeModal={closeModal} onClear={onClear} onFet={onFet} show={state.show} grade={state.grade} gpa={state.gpa} description={state.description} name={state.name} surname={state.surname} ids={state.ids}/>
+            <Modalir
+              closeModal={closeModal}
+              onClear={onClear}
+              onFet={onFet}
+              show={state.show}
+              grade={state.grade}
+              gpa={state.gpa}
+              description={state.description}
+              name={state.name}
+              surname={state.surname}
+              ids={state.ids}
+            />
             <br />
             <br />
             <h3 style={{ marginTop: '30px' }}>Candidates</h3>
@@ -174,7 +188,7 @@ if(IsDel){
                 <tr>
                   <th>Student ID</th>
                   <th>Full Name</th>
-                  {isElectionOn == 'post-election'?<th>Votes</th>:''}
+                  {isElectionOn == 'post-election' ? <th>Votes</th> : ''}
                 </tr>
               </thead>
               <tbody>
@@ -182,15 +196,28 @@ if(IsDel){
                   return (
                     <Fragment key={idx}>
                       <tr
-                       onClick={() => openModal(d.student.grade,d.student.gpa,d.description,d.student.name,d.student.surname,d.id)}
-                        style={{ cursor: 'pointer' }}>
+                        onClick={() =>
+                          openModal(
+                            d.student.grade,
+                            d.student.gpa,
+                            d.description,
+                            d.student.name,
+                            d.student.surname,
+                            d.id
+                          )
+                        }
+                        style={{ cursor: 'pointer' }}
+                      >
                         <td>{d.studentId}</td>
                         <td>
                           {d.student.name} {d.student.surname}
                         </td>
-                        {isElectionOn == 'post-election'?<td>{d.votes}</td>:''}
+                        {isElectionOn == 'post-election' ? (
+                          <td>{d.votes}</td>
+                        ) : (
+                          ''
+                        )}
                       </tr>
-            
                     </Fragment>
                   )
                 })}

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import {
-  Link
-} from "react-router-dom";
+import { Link } from 'react-router-dom'
 class Header extends Component {
   render () {
     return (
@@ -15,7 +13,7 @@ class Header extends Component {
             style={{ color: 'white', textDecoration: 'none' }}
           >
             <i
-              class='las la-user-tie'
+              className='las la-user-tie'
               style={{ fontSize: '22px', marginRight: '15px' }}
             ></i>
             <span>Students</span>
@@ -30,7 +28,7 @@ class Header extends Component {
             style={{ color: 'white', textDecoration: 'none' }}
           >
             <i
-              class='las la-vote-yea'
+              className='las la-vote-yea'
               style={{ fontSize: '22px', marginRight: '15px' }}
             ></i>
             <span>Election</span>
@@ -45,7 +43,7 @@ class Header extends Component {
             style={{ color: 'white', textDecoration: 'none' }}
           >
             <i
-              class='las la-envelope'
+              className='las la-envelope'
               style={{ fontSize: '22px', marginRight: '15px' }}
             ></i>
             <span>Notifications</span>

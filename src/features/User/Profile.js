@@ -1,12 +1,7 @@
 import React, { Fragment, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  updatePassword,
-  userSelector,
-  clearState,
-  isOldp
-} from './UserSlice'
+import { updatePassword, userSelector, clearState, isOldp } from './UserSlice'
 import { useHistory } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import LeftMenu from './LeftMenu'
@@ -14,14 +9,19 @@ const Update = () => {
   const dispatch = useDispatch()
   const { register, handleSubmit } = useForm()
   const history = useHistory()
-  const { isPasswordChange, IsOld, isFetching, isSuccess, isError, errorMessage,IsOldpass } = useSelector(
-    userSelector
-  )
+  const {
+    isPasswordChange,
+    IsOld,
+    isFetching,
+    isSuccess,
+    isError,
+    errorMessage,
+    IsOldpass
+  } = useSelector(userSelector)
 
   const onSubmit = data => {
     dispatch(clearState())
     dispatch(updatePassword(data))
- 
   }
   useEffect(() => {
     dispatch(isOldp())
@@ -33,14 +33,12 @@ const Update = () => {
   }, [])
 
   useEffect(() => {
-   
     if (isSuccess) {
       dispatch(clearState())
     }
     if (isPasswordChange) {
-      toast.success("Password Changed")
+      toast.success('Password Changed')
       dispatch(clearState())
-   //   history.push('/profile')
     }
     if (isError) {
       toast.error(errorMessage)
@@ -50,7 +48,7 @@ const Update = () => {
       dispatch(clearState())
       history.push('/update')
     }
-  }, [IsOldpass,isPasswordChange,IsOld, isSuccess, isError])
+  }, [IsOldpass, isPasswordChange, IsOld, isSuccess, isError])
   const onLogOut = () => {
     localStorage.removeItem('token')
     history.push('/login')
@@ -163,21 +161,21 @@ const Update = () => {
                 >
                   {isFetching ? (
                     <svg
-                      class='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                      className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
                       xmlns='http://www.w3.org/2000/svg'
                       fill='none'
                       viewBox='0 0 24 24'
                     >
                       <circle
-                        class='opacity-25'
+                        className='opacity-25'
                         cx='12'
                         cy='12'
                         r='10'
                         stroke='currentColor'
-                        stroke-width='4'
+                        strokeWidth='4'
                       ></circle>
                       <path
-                        class='opacity-75'
+                        className='opacity-75'
                         fill='currentColor'
                         d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
                       ></path>
@@ -190,7 +188,6 @@ const Update = () => {
           </div>
         </div>
       </Fragment>
-      
     </div>
   )
 }

@@ -168,7 +168,7 @@ const Dashboard = () => {
                         id='title'
                         name='title'
                         type='title'
-                        autocomplete='title'
+                        autoComplete='title'
                         required
                         ref={register({ required: true })}
                         className='form-control'
@@ -233,32 +233,35 @@ const Dashboard = () => {
                         </td>
                       </tr>
                       <div
-                        class='modal fade'
+                        className='modal fade'
                         id={'exampleModal-' + d.id}
-                        tabindex='-1'
+                        tabIndex='-1'
                         aria-labelledby='exampleModalLabel'
                         aria-hidden='true'
                       >
-                        <div class='modal-dialog modal-lg'>
-                          <div class='modal-content'>
-                            <div class='modal-header'>
-                              <h5 class='modal-title' id='exampleModalLabel'>
+                        <div className='modal-dialog modal-lg'>
+                          <div className='modal-content'>
+                            <div className='modal-header'>
+                              <h5
+                                className='modal-title'
+                                id='exampleModalLabel'
+                              >
                                 {d.title}
                               </h5>
                               <button
                                 type='button'
-                                class='btn-close'
+                                className='btn-close'
                                 data-bs-dismiss='modal'
                                 aria-label='Close'
                               ></button>
                             </div>
-                            <div class='modal-body'>
+                            <div className='modal-body'>
                               <p>{d.content}</p>
                             </div>
-                            <div class='modal-footer'>
+                            <div className='modal-footer'>
                               {' '}
                               <div
-                                class='btn btn-danger'
+                                className='btn btn-danger'
                                 onClick={() => onDelete(d.id)}
                               >
                                 Delete
