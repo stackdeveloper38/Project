@@ -10,9 +10,7 @@ function Modalir (props) {
     description,
     name,
     surname,
-    ids,
-    onFet,
-    onClear
+    ids
   } = props
   const dispatch = useDispatch()
   const onDelete = () => {

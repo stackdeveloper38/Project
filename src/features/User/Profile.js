@@ -11,7 +11,6 @@ const Update = () => {
   const history = useHistory()
   const {
     isPasswordChange,
-    IsOld,
     isFetching,
     isSuccess,
     isError,
@@ -25,12 +24,12 @@ const Update = () => {
   }
   useEffect(() => {
     dispatch(isOldp())
-  }, [])
+  })
   useEffect(() => {
     return () => {
       dispatch(clearState())
     }
-  }, [])
+  })
 
   useEffect(() => {
     if (isSuccess) {
@@ -48,7 +47,7 @@ const Update = () => {
       dispatch(clearState())
       history.push('/update')
     }
-  }, [IsOldpass, isPasswordChange, IsOld, isSuccess, isError])
+  })
   const onLogOut = () => {
     localStorage.removeItem('token')
     history.push('/login')

@@ -1,15 +1,14 @@
 import React, { Fragment, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
 import { loginUser, userSelector, clearState } from './UserSlice'
 import toast from 'react-hot-toast'
 import { useHistory } from 'react-router-dom'
 
-const Login = ({}) => {
+const Login = () => {
   const dispatch = useDispatch()
   const history = useHistory()
-  const { register, errors, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm()
   const { isOld, isFetching, isSuccess, isError, errorMessage } = useSelector(
     userSelector
   )
@@ -21,7 +20,7 @@ const Login = ({}) => {
     return () => {
       dispatch(clearState())
     }
-  }, [])
+  })
 
   useEffect(() => {
     if (isError) {
@@ -36,7 +35,7 @@ const Login = ({}) => {
       }
       dispatch(clearState())
     }
-  }, [isOld, isError, isSuccess])
+  })
   return (
     <Fragment>
       <div className='container'>

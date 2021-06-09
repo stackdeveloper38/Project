@@ -1,20 +1,15 @@
 import React, { Fragment, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  IsOldPassword,
-  updatePassword,
-  userSelector,
-  clearState
-} from './UserSlice'
+import { updatePassword, userSelector, clearState } from './UserSlice'
 import { useHistory } from 'react-router-dom'
 import toast from 'react-hot-toast'
 const Update = () => {
   const dispatch = useDispatch()
-  const { register, errors, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm()
   const history = useHistory()
 
-  const { IsOld, isFetching, isSuccess, isError, errorMessage } = useSelector(
+  const { isFetching, isSuccess, isError, errorMessage } = useSelector(
     userSelector
   )
 
@@ -26,7 +21,7 @@ const Update = () => {
     return () => {
       dispatch(clearState())
     }
-  }, [])
+  })
 
   useEffect(() => {
     if (isSuccess) {
@@ -37,7 +32,7 @@ const Update = () => {
       toast.error(errorMessage)
       dispatch(clearState())
     }
-  }, [IsOld, isSuccess, isError])
+  })
   const onLogOut = () => {
     localStorage.removeItem('token')
     history.push('/login')

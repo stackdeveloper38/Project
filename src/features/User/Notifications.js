@@ -22,7 +22,7 @@ const Dashboard = () => {
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
 
-  const { register, errors, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm()
   const history = useHistory()
   const dispatch = useDispatch()
   useEffect(() => {
@@ -34,7 +34,7 @@ const Dashboard = () => {
         department: 'admin'
       })
     )
-  }, [])
+  })
   const {
     isSuccessOk,
     isError,
@@ -61,7 +61,7 @@ const Dashboard = () => {
       dispatch(clearState())
       history.push('/update')
     }
-  }, [IsOldpass, isSuccessOk, isError])
+  })
 
   const onSubmit = data => {
     dispatch(NewNotify(data))

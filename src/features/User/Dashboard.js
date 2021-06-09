@@ -20,15 +20,10 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(fetchUserBytoken({ token: localStorage.getItem('token') }))
     dispatch(isOldp())
-  }, [])
-  const {
-    IsOldpass,
-    isFetching,
-    isError,
-    students,
-    IsSend,
-    errorMessage
-  } = useSelector(userSelector)
+  })
+  const { IsOldpass, isError, students, IsSend, errorMessage } = useSelector(
+    userSelector
+  )
   useEffect(() => {
     if (isError) {
       toast.error('Error:' + errorMessage)
@@ -39,19 +34,15 @@ const Dashboard = () => {
       history.push('/update')
     }
     if (IsSend) {
-      toast.success('Messages Sended')
+      toast.success('Mails sent')
     }
-  }, [IsSend, IsOldpass, isError])
+  })
   const onLogOut = () => {
     localStorage.removeItem('token')
     history.push('/login')
   }
   const onBulkSubmit = () => {
     dispatch(sendActivationMail({ url: 'http://localhost:3001' }))
-  }
-  var divStyle = {
-    marginRight: '10px',
-    width: '100%'
   }
   const data = students
   return (

@@ -8,7 +8,7 @@ import toast from 'react-hot-toast'
 
 const Signup = () => {
   const dispatch = useDispatch()
-  const { register, errors, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm()
   const history = useHistory()
 
   const { isFetching, isSuccess, isError, errorMessage } = useSelector(
@@ -22,7 +22,7 @@ const Signup = () => {
     return () => {
       dispatch(clearState())
     }
-  }, [])
+  })
 
   useEffect(() => {
     if (isSuccess) {
@@ -34,7 +34,7 @@ const Signup = () => {
       toast.error(errorMessage)
       dispatch(clearState())
     }
-  }, [isSuccess, isError])
+  })
 
   return (
     <Fragment>

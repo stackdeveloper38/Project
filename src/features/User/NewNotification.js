@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 
 const NewNotification = () => {
   const dispatch = useDispatch()
-  const { register, errors, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm()
   const history = useHistory()
 
   const { isFetching, isSuccess, isError, errorMessage } = useSelector(
@@ -22,7 +22,7 @@ const NewNotification = () => {
     return () => {
       dispatch(clearState())
     }
-  }, [])
+  })
 
   useEffect(() => {
     if (isSuccess) {
@@ -34,7 +34,7 @@ const NewNotification = () => {
       toast.error(errorMessage)
       dispatch(clearState())
     }
-  }, [isSuccess, isError])
+  })
   const onLogOut = () => {
     localStorage.removeItem('token')
     history.push('/login')

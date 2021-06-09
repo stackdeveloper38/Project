@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -14,10 +14,9 @@ import LeftMenu from './LeftMenu'
 import 'react-datepicker/dist/react-datepicker.css'
 const Beacandidate = () => {
   const dispatch = useDispatch()
-  const { register, errors, handleSubmit } = useForm()
+  const { register, handleSubmit } = useForm()
   const history = useHistory()
   const {
-    isFetching,
     isSuccess,
     isError,
     errorMessage,
@@ -34,7 +33,7 @@ const Beacandidate = () => {
   useEffect(() => {
     dispatch(IsExpired())
     dispatch(studentIsPassive())
-  }, [])
+  })
 
   useEffect(() => {
     if (isSuccess) {
@@ -56,7 +55,7 @@ const Beacandidate = () => {
       localStorage.removeItem('token')
       history.push('/login')
     }
-  }, [IsEx, isSaved, isSuccess, isError, IsPassive])
+  })
 
   const onLogOut = () => {
     localStorage.removeItem('token')

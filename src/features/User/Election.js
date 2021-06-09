@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, setState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import Modalir from './Modalir.js'
@@ -9,8 +9,6 @@ import {
   userSelector,
   fetchCandidateBytoken,
   clearState,
-  deleteCandidateById,
-  ApproveIt,
   isOldp
 } from './UserSlice'
 
@@ -56,7 +54,7 @@ const Candidate = () => {
         department: 'admin'
       })
     )
-  }, [])
+  })
   const {
     IsOldpass,
     isElectionOn,
@@ -67,7 +65,7 @@ const Candidate = () => {
   } = useSelector(userSelector)
   useEffect(() => {
     if (isError) {
-      if (errorMessage != undefined) {
+      if (errorMessage !== undefined) {
         dispatch(clearState())
         toast.error(errorMessage)
         dispatch(
@@ -92,7 +90,7 @@ const Candidate = () => {
       dispatch(clearState())
       history.push('/update')
     }
-  }, [IsDel, IsOldpass, isError])
+  })
 
   const onLogOut = () => {
     localStorage.removeItem('token')
@@ -102,18 +100,6 @@ const Candidate = () => {
   const Election = () => {
     dispatch(election())
     dispatch(getElectionStatus())
-  }
-
-  const onApprove = (Id, what) => {
-    dispatch(
-      ApproveIt({ token: localStorage.getItem('token'), Id: Id, what: what })
-    )
-    dispatch(
-      fetchCandidateBytoken({
-        token: localStorage.getItem('token'),
-        department: 'admin'
-      })
-    )
   }
 
   const data = Candidates
@@ -151,11 +137,11 @@ const Candidate = () => {
             <div className='float-left'>
               <b>Current Stage:</b>
               <br />
-              {isElectionOn == 'idle' ? (
+              {isElectionOn === 'idle' ? (
                 <p>Idle</p>
-              ) : isElectionOn == 'pre-election' ? (
+              ) : isElectionOn === 'pre-election' ? (
                 <p>Pre-Election</p>
-              ) : isElectionOn == 'peri-election' ? (
+              ) : isElectionOn === 'peri-election' ? (
                 <p>Voting</p>
               ) : (
                 <p>Post-Election</p>
@@ -188,7 +174,7 @@ const Candidate = () => {
                 <tr>
                   <th>Student ID</th>
                   <th>Full Name</th>
-                  {isElectionOn == 'post-election' ? <th>Votes</th> : ''}
+                  {isElectionOn === 'post-election' ? <th>Votes</th> : ''}
                 </tr>
               </thead>
               <tbody>
@@ -212,7 +198,7 @@ const Candidate = () => {
                         <td>
                           {d.student.name} {d.student.surname}
                         </td>
-                        {isElectionOn == 'post-election' ? (
+                        {isElectionOn === 'post-election' ? (
                           <td>{d.votes}</td>
                         ) : (
                           ''
